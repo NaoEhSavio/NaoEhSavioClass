@@ -25,7 +25,9 @@ type Bits {
 //is_empty(d)      -> Bool.false
 //is_empty(Bits.e) -> Bool.true
 is_empty(b: Bits): Bool
-  ?is_empty
+  case b {
+    e: true
+  } default false
 
 
 
@@ -36,7 +38,11 @@ is_empty(b: Bits): Bool
 //tail(c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
 //tail(d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
 tail(b: Bits): Bits
-  ?tail
+  case b {
+    e: Bits.e
+    o: b.pred
+    i: b.pred
+  }
 
 
 //Negates all Bits
@@ -46,7 +52,11 @@ tail(b: Bits): Bits
 //notb(c) -> Bits.i(Bits.i(Bits.o(Bits.o(Bits.e))))
 //notb(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.e))))
 notb(b: Bits): Bits
-  ?notb
+  case b{
+    e: Bits.e
+    o: Bits.i(notb(b.pred))
+    i: Bits.o(notb(b.pred))
+  }
 
 
 
@@ -58,7 +68,12 @@ notb(b: Bits): Bits
 //inc(c) -> Bits.i(Bits.o(Bits.i(Bits.i(Bits.e))))
 //inc(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.i(Bits.e)))))
 inc(b: Bits): Bits
-  ?inc
+  case b{
+  e: Bits.i(Bits.e)
+  o: Bits.i(b.pred)
+  i: Bits.o(inc(b.pred))
+}
+
 
 
 
@@ -69,7 +84,20 @@ inc(b: Bits): Bits
 //dec(c) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.e))))
 //dec(d) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
 dec(b: Bits): Bits
-  ?dec
+  case b{
+    e: Bits.e
+    o: case b.pred{
+      e: Bits.e
+      o: Bits.i(dec(b.pred))
+      i: Bits.i(dec(b.pred))
+      }
+    i: case b.pred {
+      e: Bits.o(Bits.e)
+      o: Bits.o(b.pred)
+      i: Bits.o(b.pred)
+    }
+  }
+
 
 
 
@@ -80,7 +108,11 @@ dec(b: Bits): Bits
 //concat(b,c) -> Bits.o(Bits.i(Bits.i(Bits.o(Bits.o(Bits.i(Bits.i(Bits.e)))))))
 //concat(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))))))
 concat(a: Bits, b: Bits): Bits
-  ?concat
+  case a {
+    e: b
+    o: Bits.o(concat(a.pred, b))
+    i: Bits.i(concat(a.pred, b))
+  }
 
 
 
@@ -90,7 +122,19 @@ concat(a: Bits, b: Bits): Bits
 //add(b,c) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
 //add(c,d) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.i(Bits.e)))))
 add(a: Bits, b: Bits): Bits 
-  ?add
+  case a {
+    e: b
+    o: case b {
+      e: a
+      o: Bits.o(add(a.pred, b.pred))
+      i: Bits.i(add(a.pred, b.pred))
+    }
+    i: case b {
+      e: a
+      o: Bits.i(add(a.pred, b.pred))
+      i: Bits.o(add(a.pred, inc(b.pred)))
+    }
+  }
 
 
 
@@ -101,7 +145,19 @@ add(a: Bits, b: Bits): Bits
 //and(b,c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
 //and(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
 and(a: Bits, b: Bits): Bits
-  ?and
+  case a {
+    e: Bits.e
+    o: case b {
+      e: Bits.e
+      o: Bits.o(and(a.pred, b.pred))
+      i: Bits.o(and(a.pred, b.pred))
+    }
+    i: case b {
+      e: Bits.e
+      o: Bits.o(and(a.pred, b.pred))
+      i: Bits.i(and(a.pred, b.pred))
+    }
+  }
 
 
 //Returns Bits.i if any of bits are Bits.i
@@ -110,7 +166,19 @@ and(a: Bits, b: Bits): Bits
 //or(b,c) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
 //or(c,d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
 or(a: Bits, b: Bits): Bits
-  ?or
+  case a {
+    e: Bits.e
+    o: case b {
+      e: Bits.e
+      o: Bits.o(or(a.pred, b.pred))
+      i: Bits.i(or(a.pred, b.pred))
+    }
+    i: case b {
+      e: Bits.e
+      o: Bits.i(or(a.pred, b.pred))
+      i: Bits.i(or(a.pred, b.pred))
+    }
+  }
 
 
 
@@ -120,14 +188,36 @@ or(a: Bits, b: Bits): Bits
 //eql(b,c) -> Bool.false
 //eql(d,d) -> Bool.true
 eql(a: Bits, b: Bits): Bool
-  ?eql
+  case a {
+  e: case b{
+    e: true
+    o: false
+    i: false
+  }
+  o: case b {
+    e: false
+    o: eql(a.pred, b.pred)
+    i: eql(a.pred, b.pred)
+  }
+  i: case b {
+    e: false
+    o: eql(a.pred, b.pred)
+    i: eql(a.pred, b.pred)
+  }
+}
+
 
 
 
 //Reverses a Bits structure
 
 reverse_go(b: Bits, acum: Bits): Bits
-  ?reverse_go
+  case b {
+    e: acum
+    o: reverse_go(b.pred, Bits.o(acum))
+    i: reverse_go(b.pred, Bits.i(acum))
+    }
+
   
 
 
@@ -144,7 +234,12 @@ reverse(b: Bits): Bits
 //Gets the length of the Bits structure
 
 length_go(bs: Bits, acum: Nat): Nat
-  ?length_go
+  case bs {
+    e: acum
+    o: length_go(bs.pred, Nat.succ(acum))
+    i: length_go(bs.pred, Nat.succ(acum))
+    }
+
 
 
 
@@ -159,16 +254,19 @@ length(bs: Bits): Nat
 
 
 //Multiplies two Bits structures
-
+// nao funciona a do kind base---
 mul_go(a: Bits, b: Bits, acum: Bits): Bits
-  ?mul_go
+case b {
+  e: acum
+  i: mul_go(Bits.o(a), b.pred, acum)
+  o: mul_go(Bits.o(a), b.pred, Bits.add(a, acum))
+}
 
 
 //mul(a,b) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
 //mul(b,c) -> Bits.o(Bits.o(Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))))
 mul(a: Bits, b: Bits): Bits
   mul_go(a, b, Bits.e)
-
 
 
 //Drops a n Number of Bits starting from from the least significative bit
@@ -178,8 +276,14 @@ mul(a: Bits, b: Bits): Bits
 //drop(1, c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
 //drop(1, d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
 drop(n: Nat, bs: Bits): Bits
-  ?drop
-  
+  case n{
+    zero: bs
+    succ: case bs {
+      e: bs
+      o: drop(n.pred, bs.pred)
+      i: drop(n.pred, bs.pred)
+    }
+  }
 
 
 //Takes n Bits from the structure, starting from the least significative bit
@@ -189,7 +293,14 @@ drop(n: Nat, bs: Bits): Bits
 //take(3, c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
 //take(4, d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
 take(n: Nat, bs: Bits): Bits
-  ?take
+  case n{
+    zero: Bits.e
+    succ: case bs {
+      e: Bits.e
+      o: Bits.o(take(n.pred, bs.pred))
+      i: Bits.i(take(n.pred, bs.pred))
+    }
+  }
 
 ex_07: IO<Unit>
   IO {
@@ -201,6 +312,7 @@ ex_07: IO<Unit>
     Tests._07.concat(concat)
     Tests._07.add(add)
     Tests._07.and(and)
+    Tests._07.or(or)
     Tests._07.eql(eql)
     Tests._07.reverse(reverse)
     Tests._07.length(length)

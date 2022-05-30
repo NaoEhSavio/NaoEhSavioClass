@@ -15,7 +15,10 @@
 // get_first_num("pos d 890")    = "pos"
 // get_first_num("932 / asdas")  = "932"
 get_first_num(exp: String): String 
-	?a
+	case exp {
+		nil: ?a
+		cons: ?b
+	}
 
 // Gets a expression operator (it can either be a operator or not) as a Char 
 // Examples: 
