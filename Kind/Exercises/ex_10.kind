@@ -30,9 +30,10 @@ Char: Type
 //is_upper('A') -> Bool.true
 //is_upper('0') -> Bool.false
 is_upper(x: Char): Bool
-  ?is_upper
-
-
+ case U16.gte(x, 65){
+   true: U16.lte(x, 90)
+   false: false
+ }
 
 //Verifies if the character is Lower Case
 
@@ -40,7 +41,11 @@ is_upper(x: Char): Bool
 //is_lower('A') -> Bool.false
 //is_lower('0') -> Bool.false
 is_lower(x: Char): Bool
-  ?is_lower
+ case U16.gte(x, 97){
+   true: U16.lte(x, 122)
+   false: false
+ }
+
 
 
 
@@ -50,8 +55,10 @@ is_lower(x: Char): Bool
 //is_digit('A') -> Bool.false
 //is_digit('0') -> Bool.true
 is_digit(x: Char): Bool
-  ?is_digit
-
+ case U16.gte(x, 48){
+   true: U16.lte(x, 57)
+   false: false
+ }
 
 
 //Verifies if both of the Characters are the same
@@ -60,7 +67,7 @@ is_digit(x: Char): Bool
 //is_equal('A', '0') -> Bool.false
 //is_equal('0', '0') -> Bool.true
 equal(x: Char, y: Char): Bool
-  ?equal
+  U16.eql(x,y)
 
 
 
@@ -70,7 +77,11 @@ equal(x: Char, y: Char): Bool
 //to_digit('1') -> Nat.succ(Nat.zero)
 //to_digit('4') -> 4
 to_digit(x: Char): Nat
-  ?to_digit
+let t = U16.to_nat(x)
+  case is_digit(x){
+    true: Nat.sub(t,48)
+    false: t
+  }
 
 
 
@@ -80,7 +91,13 @@ to_digit(x: Char): Nat
 //to_lower('B') -> 'b'
 //to_lower('Z') -> 'z'
 to_lower(x: Char): Char
-  ?to_lower
+  case U16.gte(x, 65){
+   true: case U16.lte(x, 95){
+     true: U16.add(x,32)
+     false: x
+   }
+   false: x
+  }
 
 
 
@@ -90,7 +107,13 @@ to_lower(x: Char): Char
 //to_upper('b') -> 'B'
 //to_upper('z') -> 'Z'
 to_upper(x: Char): Char
-  ?to_upper
+  case U16.gte(x, 97){
+   true: case U16.lte(x, 122){
+     true: U16.sub(x,32)
+     false: x
+   }
+   false: x
+  }
 
 
 
@@ -246,3 +269,27 @@ slice(n: Nat, x: Nat, xs: String): String
 //split("You are awesome!", " ")                  -> ["You","are","awesome!"]
 split(xs: String, match: String): List<String>
   ?split
+
+  
+ex_10: _
+  //is_upper('a') 
+  //is_upper('A') 
+  //is_upper('0')
+  //is_lower('a')   
+  //is_lower('A') 
+  //is_lower('0') 
+  //is_digit('a') 
+  //is_digit('A') 
+  //is_digit('0')   
+  //is_equal('a', 'A')
+  //is_equal('A', '0')
+  //is_equal('0', '0') 
+  // to_digit('0') 
+  //to_digit('1') 
+  //to_digit('4') 
+  //to_lower('A') 
+  //to_lower('B') 
+  //to_lower('Z') 
+  to_upper('a')  
+  //to_upper('b') 
+  //to_upper('z') 

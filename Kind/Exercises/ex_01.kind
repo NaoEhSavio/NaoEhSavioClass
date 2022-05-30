@@ -7,11 +7,18 @@ type MaybeBool {
  }
  // Returns true if Maybe is none
 is_none(a: MaybeBool): Bool
-  ?a
+  case a {
+    none: true
+    some: false
+  }
     
 // Returns true if Maybe is some
 is_some(a: MaybeBool): Bool
-  ?is
+  case a {
+    none: false
+    some: true
+  }
+
 // Returns true if both inputs are identical
 // eql(MaybeBool.none,             MaybeBool.none            ) -> true
 // eql(MaybeBool.some(Bool.false), MaybeBool.none            ) -> false
@@ -19,22 +26,42 @@ is_some(a: MaybeBool): Bool
 // eql(MaybeBool.some(Bool.false), MaybeBool.some(Bool.false)) -> true
 
 eql(a: MaybeBool, b: MaybeBool): Bool
-  ?q
+  case a b {
+    none none: true
+    some some: case a.value b.value{
+      true true: true
+      false false: true
+    } default false
+  }default false
 
 // Returns the value inside the MaybeBool.
 // If there is no value contained, returns v instead
 extract(a: MaybeBool, v: Bool): Bool
-  ?e
+  case a {
+    none: v
+    some: a.value
+  }
 
 // Create a MaybeBool from a Boolean
 // create(Bool.false) -> MaybeBool(Bool.false)
 create(a:Bool): MaybeBool
-  ?c
+  MaybeBool.some(a)
 
 // Returns the first input that is a MaybeBool.some
 // Returns MaybeBool.none if both are MaybeBool.none
-or(a: MaybeBool, b: MaybeBool) : MaybeBool 
-  ?or
+or(a: MaybeBool, b: MaybeBool) : MaybeBool
+  case a{
+    none: case b{
+      none: MaybeBool.none
+      some: b
+    }
+    some: case b{
+      none: a
+      some: a
+    }
+  }
+  
+
 
 ex_01: IO<Unit>
   IO {
