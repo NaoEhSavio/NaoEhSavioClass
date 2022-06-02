@@ -129,21 +129,24 @@ hlf(a: Nat): Nat
 // 5 / 2 = 2
 div(a: Nat, b: Nat): Nat
 case eql(a,b) {
-  true: div.go(a,b)
-  false: div.r(a,b)
+  true: divgo(a,b)
+  false: divr(a,b)
 }
 
-div.r(a: Nat, b: Nat): Nat// 6/2 2
-case sub(Nat.succ(a),b) {
-  zero: Nat.zero
-  succ: Nat.succ(div.r(sub(a, b), b))
-}
-div.go(a: Nat, b: Nat): Nat // division 5/2 = 3
+divr(a: Nat, b: Nat): Nat// 6/2 2
+case a {
+    zero: Nat.zero
+    succ: case sub(Nat.succ(a),b) {
+      zero: Nat.zero
+      succ: Nat.succ(divr(sub(a, b), b))
+      }
+  }
+divgo(a: Nat, b: Nat): Nat // division 5/2 = 3
  case a {
     zero: Nat.zero
     succ: case b{
       zero: Nat.zero 
-      succ: Nat.succ(div.go(sub(a, b), b))
+      succ: Nat.succ(divgo(sub(a, b), b))
     }
   }
 

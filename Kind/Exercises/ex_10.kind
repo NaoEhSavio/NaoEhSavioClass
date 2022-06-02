@@ -142,7 +142,13 @@ type String {
 //concat(a,b) -> "HiHello"
 //concat(b,c) -> "Hellotext"
 concat(xs: String, ys: String): String
-  ?concat
+  case xs {
+    nil: ys
+    cons: case ys {
+      nil: xs
+      cons: String.cons(xs.head, concat(ys, xs.tail))
+    }
+  }
 
 
 
@@ -150,7 +156,10 @@ concat(xs: String, ys: String): String
 
 //map(to_lower, a) -> "hi"
 map(fn: Char -> Char, xs: String): String
-  ?map
+  case xs {
+    nil: String.nil
+    cons: String.cons(fn(xs.head), map(fn, xs.tail))
+  }
 
 
 
@@ -158,8 +167,13 @@ map(fn: Char -> Char, xs: String): String
 
 //string_to_upper(c) -> "TEXT"
 string_to_upper(xs: String): String
-  ?to_upper
-
+  case xs {
+    nil: String.nil
+    cons: case is_lower(xs.head){
+      true: String.cons(to_upper(xs.head), string_to_upper(xs.tail))
+      false: string_to_upper(xs.tail)
+    } 
+  }
 
 
 //Convers the String into bits
@@ -188,10 +202,16 @@ stringequal(xs: String, ys: String): Bool
 //is_nat(b)      -> Bool.false
 //is_nat("1234") -> Bool.true
 is_nat(xs: String): Bool
-  ?is_nat
-
-
-
+  case xs {
+    nil: Bool.false
+    cons: case xs.tail{
+      nil:  is_digit(xs.head)
+      cons: case is_digit(xs.head){
+        true: is_nat(xs.tail)
+        false: Bool.false
+      }
+    } 
+  }
 // Takes any elements while the condition is matched.
 
 //take_while(is_upper,    a) -> "HI"
@@ -272,6 +292,18 @@ split(xs: String, match: String): List<String>
 
   
 ex_10: _
+let a = "HI"
+let b = "Hello"
+let c = "text"
+
+  //concat(a,b)
+  //concat(b,c)
+  //map(to_lower, a)
+  //tring_to_upper(c)
+  // string_to_upper(c)
+  //is_nat(a)      -> Bool.false
+  //is_nat(b)      -> Bool.false
+  is_nat("1234")
   //is_upper('a') 
   //is_upper('A') 
   //is_upper('0')
@@ -290,6 +322,6 @@ ex_10: _
   //to_lower('A') 
   //to_lower('B') 
   //to_lower('Z') 
-  to_upper('a')  
+  // to_upper('a')  
   //to_upper('b') 
   //to_upper('z') 

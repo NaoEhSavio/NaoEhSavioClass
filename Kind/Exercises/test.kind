@@ -1,0 +1,53 @@
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+  case a {
+    zero: case b{
+      zero: Bool.true
+      succ: Bool.false
+    }
+    succ: case b{
+      zero: Bool.false
+      succ: eql(a.pred, b.pred)
+    }
+  }
+
+
+sub(a: Nat, b: Nat): Nat
+  case a {
+    zero: Nat.zero
+    succ: case b{
+      zero: a
+      succ: sub(a.pred,b.pred) 
+    }
+  }
+
+div(a: Nat, b: Nat): Nat
+case eql(a,b) {
+  true: divgo(a,b)
+  false: divr(a,b)
+}
+
+divr(a: Nat, b: Nat): Nat// 6/2 2
+case sub(Nat.succ(a),b) {
+  zero: Nat.zero
+  succ: Nat.succ(divr(sub(a, b), b))
+}
+divgo(a: Nat, b: Nat): Nat // division 5/2 = 3
+ case a {
+    zero: Nat.zero
+    succ: case b{
+      zero: Nat.zero 
+      succ: Nat.succ(divgo(sub(a, b), b))
+    }
+  }
+ test: _
+// test: String
+// List.show!(
+//     Nat.show
+//         [div(0,0),
+//         div(0,3),
+//         div(3,0),
+//         div(1,66),
+//         div(66,1),
+//         div(66,10),
+//         div(110,10)]
+//         )

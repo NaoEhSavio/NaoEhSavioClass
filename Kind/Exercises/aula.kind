@@ -1,0 +1,47 @@
+type ListMap <A: Type> { 
+  empty
+  cons(head: Pair<Nat, A>, tail: ListMap<A>)
+}
+
+
+get<A: Type>(key: Nat, lm: ListMap<A>): Maybe<A>
+     case lm {
+        empty: Maybe.none<A>
+        cons: case lm.head{
+            new: case Nat.eql(lm.head.fst, key){
+                    true: Maybe.some<A>(lm.head.snd)
+                    false: get<A>(key, lm.tail)
+            }
+        }
+    } 
+get_open<A: Type>(key: Nat, lm: ListMap<A>): Maybe<A>
+     case lm {
+        empty: Maybe.none<A>
+        cons: 
+            open lm.head
+            case Nat.eql(lm.head.fst, key){
+                    true: Maybe.some<A>(lm.head.snd)
+                    false: get<A>(key, lm.tail)
+            }
+    } 
+get_arroba<A: Type>(key: Nat, lm: ListMap<A>): Maybe<A>
+     case lm {
+        empty: Maybe.none<A>
+        cons: case Nat.eql(lm.head@fst, key){
+                true: Maybe.some<A>(lm.head@snd)
+                false: get<A>(key, lm.tail)
+            }
+    } 
+
+
+mapa: ListMap<Nat>
+  ListMap.cons<Nat>(Pair.new<Nat, Nat>(0, 5)
+  ListMap.cons<Nat>(Pair.new<Nat, Nat>(1, 6)
+  ListMap.cons<Nat>(Pair.new<Nat, Nat>(2, 7)
+  ListMap.cons<Nat>(Pair.new<Nat, Nat>(3, 8)
+  ListMap.cons<Nat>(Pair.new<Nat, Nat>(4, 9)
+  ListMap.cons<Nat>(Pair.new<Nat, Nat>(5, 10)
+  ListMap.empty<Nat>))))))
+
+aula: _
+get!(6, mapa)

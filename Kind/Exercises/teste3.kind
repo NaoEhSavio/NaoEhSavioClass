@@ -1,0 +1,6 @@
+Find_and_replace(to_remove: String, to_add: String, str: String): String
+  ?s
+
+Test: _
+  Find_and_replace("test", "example", "In this test, the word test should be replaced by the word example.")
+  // This should be the result: "In this example, the word example should be replaced by the word example." 
