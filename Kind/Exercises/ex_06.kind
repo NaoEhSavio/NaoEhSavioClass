@@ -135,88 +135,201 @@ dbl(a: Inte): Inte
     }
   }
 
+// i_d(a: Inte): Inte 
+//   case a {
+//     neg: case a.num{
+//       one: Inte.neg(Neg.pred(Neg.one))
+//       pred: dec(i_d(Inte.neg(a.num.succ)))
+//     }
+//     pos: case a.num{
+//       zero: Inte.pos(Pos.zero)
+//       succ: inc(i_d(Inte.pos(a.num.pred)))
+//     }
+//   }
 // Adds two Integers
 // int(false, 4) + int(false, 2) = -6
 // int(false, 4) + int(true,  2) = -2
 add(a: Inte, b: Inte): Inte
   case a {
     neg: case b{
-      neg: ?a
-      pos: ?a
-    }
+      neg: case b.num{
+        one: dec(a)
+        pred: case a.num {
+          one: dec(b)
+          pred: dec(dec(add(Inte.neg(a.num.succ), Inte.neg(b.num.succ))))
+        }
+      }
+      pos: case b.num{
+        zero: a
+        succ: case a.num{
+          one: dec(b)
+          pred: add(Inte.neg(a.num.succ), Inte.pos(b.num.pred))
+          }
+        }
+      }
     pos: case b {
-      neg: ?s
-      pos: ?s
+      neg: case b.num{
+        one: dec(a)
+        pred: case a.num {
+          zero: b
+          succ: add(Inte.pos(a.num.pred), Inte.neg(b.num.succ))
+        }
+      }
+      pos: case b.num{
+        zero: a
+        succ: case a.num {
+          zero: b
+          succ: inc(inc(add(Inte.pos(a.num.pred), Inte.pos(b.num.pred))))
+        }
+      }
     } 
   }
 
 // Multiplies two Integers
 // int(false, 2) * int(true, 3)  = -6
 // int(false, 4) * int(false, 5) = +20
+//-1 * -10 = 10
+
+
+
 mul(a: Inte, b: Inte): Inte
-  ?mul
+ case a {
+    neg: case b{
+      neg: case b.num{
+        one: case a.num{
+          one: Inte.pos(Pos.succ(Pos.zero))  
+          pred: inc(mul(Inte.neg(a.num.succ), b))         //mul(inc(Inte.neg(a.num.succ))), Inte.neg(b.num))
+        }                   
+        pred: add(Inte.neg(a.num),(mul(Inte.neg(a.num), Inte.neg(b.num.succ))))
+        }
+      pos: case b.num{
+        zero: Inte.pos(Pos.zero)
+        succ: case a.num{
+          one: add(Inte.neg(a.num), (mul(Inte.neg(a.num), Inte.pos(b.num.pred))))
+          pred: add(Inte.neg(a.num), (mul(Inte.neg(a.num), Inte.pos(b.num.pred))))
+          }
+        }
+      }
+    pos: case b {
+      neg: case b.num{
+        one: case a.num{
+          zero: Inte.pos(Pos.zero)
+          succ: add(Inte.neg(b.num), mul(Inte.pos(a.num.pred), Inte.neg(b.num)))
+        }
+        pred: case a.num {
+          zero: Inte.pos(Pos.zero)
+          succ: add(Inte.neg(b.num), mul(Inte.pos(a.num.pred), Inte.neg(b.num)))
+        }
+      }
+      pos: case b.num{
+        zero: Inte.pos(Pos.zero)
+        succ: case a.num {
+          zero: Inte.pos(Pos.zero)
+          succ: add(Inte.pos(b.num),(mul(Inte.pos(a.num.pred), Inte.pos(b.num))))
+        }
+      }
+    } 
+  }
 
 // Subtracts two Integers
 // int(false, 6) - int(false, 6) = +0
-// int(false, 4) - int(false, 6) = +2
+// // int(false, 4) - int(false, 6) = +2
 sub(a: Inte, b: Inte): Inte
-  ?sub
+  case a {
+    neg: case b{
+      neg: case b.num{
+        one: inc(a)
+        pred: case a.num {
+          one: inc(b)
+          pred: dec(dec(sub(Inte.neg(a.num.succ), Inte.neg(b.num.succ))))
+        }
+      }
+      pos: case b.num{
+        zero: a
+        succ: case a.num{
+          one: dec(b)
+          pred: sub(Inte.neg(a.num.succ), Inte.pos(b.num.pred))
+          }
+        }
+      }
+    pos: case b {
+      neg: case b.num{
+        one: dec(a)
+        pred: case a.num {
+          zero: b
+          succ: sub(Inte.pos(a.num.pred), Inte.neg(b.num.succ))
+        }
+      }
+      pos: case b.num{
+        zero: a
+        succ: case a.num {
+          zero: b
+          succ: dec(dec(sub(Inte.pos(a.num.pred), Inte.pos(b.num.pred))))
+        }
+      }
+    } 
+  } 
 
-// Equal
-eql(a: Inte, b: Inte): Bool // Given two Integers, returns true if both are the same and false otherwise.
-  ?eql
+// // Equal
+// eql(a: Inte, b: Inte): Bool // Given two Integers, returns true if both are the same and false otherwise.
+//   ?eql
 
 
-// Greater than
-// int(false, 2) > int(false, 5) = True
-// int(false, 5) > int(false, 1) = False
-// int(false, 2) > int(true,  0) = False
-// int(true,  0) > int(false, 2) = True
-gtn(a: Inte, b: Inte): Bool // if A > B then True else false
-  ?gtn
+// // Greater than
+// // int(false, 2) > int(false, 5) = True
+// // int(false, 5) > int(false, 1) = False
+// // int(false, 2) > int(true,  0) = False
+// // int(true,  0) > int(false, 2) = True
+// gtn(a: Inte, b: Inte): Bool // if A > B then True else false
+//   ?gtn
 
-// Lower than
-// int(false, 1) < int(true,  0) = True
-// int(true,  0) < int(false, 1) = False
-ltn(a: Inte, b: Inte): Bool // if A > B then False else true
-  ?ltn
+// // Lower than
+// // int(false, 1) < int(true,  0) = True
+// // int(true,  0) < int(false, 1) = False
+// ltn(a: Inte, b: Inte): Bool // if A > B then False else true
+//   ?ltn
 
-// Minimum
-// min(int(false, 1), int(true,  0)  = -1
-// min(int(false, 1), int(false, 3)) = -3
-min(a: Inte, b: Inte): Inte // if A < B then A else B
-  ?min
+// // Minimum
+// // min(int(false, 1), int(true,  0)  = -1
+// // min(int(false, 1), int(false, 3)) = -3
+// min(a: Inte, b: Inte): Inte // if A < B then A else B
+//   ?min
 
-// Maximum
-// max(int(false, 1), int(true,  0)) = +0
-// max(int(false, 1), int(false, 3)) = -1
-max(a: Inte, b: Inte): Inte // if A > B then A else B
-  ?max
+// // Maximum
+// // max(int(false, 1), int(true,  0)) = +0
+// // max(int(false, 1), int(false, 3)) = -1
+// max(a: Inte, b: Inte): Inte // if A > B then A else B
+//   ?max
 
-// Half
-// Divides an Integer by two
-// int(false, 4) = -2
-// int(false, 1) = +0
-// int(true,  6) = +3
-hlf(a: Inte): Inte
-  ?hlf
+// // Half
+// // Divides an Integer by two
+// // int(false, 4) = -2
+// // int(false, 1) = +0
+// // int(true,  6) = +3
+// hlf(a: Inte): Inte
+//   ?hlf
 
-// Division
-// int(true,  2)  / int(true,  2)  = +1
-// int(false, 8)  / int(true,  4)  = -2
-// int(false, 11) / int(false, 5)  = +2
-// int(true,  10) / int(false, 12) = +0
-div(a: Inte, b: Inte): Inte 
-  ?div
+// // Division
+// // int(true,  2)  / int(true,  2)  = +1
+// // int(false, 8)  / int(true,  4)  = -2
+// // int(false, 11) / int(false, 5)  = +2
+// // int(true,  10) / int(false, 12) = +0
+// div(a: Inte, b: Inte): Inte 
+//   ?div
 
+// // ex_06: _
+// //   let b =Inte.neg(Neg.pred(Neg.pred(Neg.pred(Neg.one))))
+// //   let c = dbl(b)
+// //   let a = mul(b,c)
+// //   inte_show(a)
 ex_06: IO<Unit>
   IO {
     Tests._06.inc(inc)
     Tests._06.dec(dec)
     Tests._06.dbl(dbl)
-    // Tests._06.add(add)
-    // Tests._06.mul(mul)
-    // Tests._06.sub(sub)
+    Tests._06.add(add)
+    Tests._06.mul(mul)
+    Tests._06.sub(sub)
     // Tests._06.eql(eql)
     // Tests._06.gtn(gtn)
     // Tests._06.ltn(ltn)

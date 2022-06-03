@@ -43,5 +43,9 @@ mapa: ListMap<Nat>
   ListMap.cons<Nat>(Pair.new<Nat, Nat>(5, 10)
   ListMap.empty<Nat>))))))
 
+mapa2: ListMap<Nat> ListMap.cons<Nat>(Pair.new<Nat, Nat>(0, 5),ListMap.cons<Nat>(Pair.new<Nat, Nat>(1, 6),ListMap.cons<Nat>(Pair.new<Nat, Nat>(2, 7),ListMap.cons<Nat>(Pair.new<Nat, Nat>(3, 8),ListMap.cons<Nat>(Pair.new<Nat, Nat>(4, 9),ListMap.cons<Nat>(Pair.new<Nat, Nat>(5, 10),ListMap.empty<Nat>))))))
+
 aula: _
-get!(6, mapa)
+let a = ListMap.cons<Nat>(Pair.new<Nat, Nat>(0, 5),ListMap.cons<Nat>(Pair.new<Nat, Nat>(1, 6),ListMap.cons<Nat>(Pair.new<Nat, Nat>(2, 7),ListMap.cons<Nat>(Pair.new<Nat, Nat>(3, 8),ListMap.cons<Nat>(Pair.new<Nat, Nat>(4, 9),ListMap.cons<Nat>(Pair.new<Nat, Nat>(5, 10),ListMap.empty<Nat>))))))
+
+get!(1, a)
