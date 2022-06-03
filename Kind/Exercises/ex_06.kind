@@ -198,7 +198,8 @@ mul(a: Inte, b: Inte): Inte
       neg: case b.num{
         one: case a.num{
           one: Inte.pos(Pos.succ(Pos.zero))  
-          pred: inc(mul(Inte.neg(a.num.succ), b))         //mul(inc(Inte.neg(a.num.succ))), Inte.neg(b.num))
+          pred: inc(mul(Inte.neg(a.num.succ), b))  // SaifUwU ajudou, obrigado!!!!!       
+              //mul(inc(Inte.neg(a.num.succ))), Inte.neg(b.num))
         }                   
         pred: add(Inte.neg(a.num),(mul(Inte.neg(a.num), Inte.neg(b.num.succ))))
         }
