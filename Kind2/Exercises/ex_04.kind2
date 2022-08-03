@@ -1,6 +1,5 @@
 // Nat
 // ---
-
 Nat : Type
 Nat.zero : Nat
 Nat.succ (pred: Nat) : Nat
@@ -59,19 +58,6 @@ Nat.ltn (Nat.succ a) (Nat.succ b) = (Nat.ltn a b)
 Nat.min (a: Nat) (b: Nat): Nat
 Nat.min a b = if (Nat.ltn a b) { a } else { b }
 
-// Nat.ltn a b = match Bool x = (algo ...) {
-//   true  => ...
-//   false => ...
-// }
-// como é bool, pode usar if
-// Nat.ltn a b = if (algo ...) { ... } else { ... }
-// Double (x: Nat) : Nat {
-//   match x {
-//     zero => Nat.zero
-//     succ => (Nat.succ (Nat.succ (Double x.pred)))
-//   }
-// }
-
 Nat.max (a: Nat) (b: Nat): Nat
 Nat.max a b = if (Nat.gtn a b) { a } else { b }
 
@@ -87,34 +73,10 @@ Nat.div Nat.zero      b        = Nat.zero
 Nat.div a             b        = if (Nat.ltn a b) { Nat.zero } else { (Nat.succ( Nat.div( Nat.sub a b) b)) }
 // Nat.div (Nat.succ a)  (Nat.succ b)  = (Nat.succ( Nat.div( Nat.sub a b) b))
 
-// Nat.comm.a (a: Nat) : (Equal Nat a (Nat.add a Nat.zero))
-// Nat.comm.a Nat.zero     = Equal.refl
-// Nat.comm.a (Nat.succ a) = (Equal.apply @x(Nat.succ x) (Nat.comm.a a))
-
-// Nat.comm.b (a: Nat) (b: Nat): (Equal Nat (Nat.add a (Nat.succ b)) (Nat.succ (Nat.add a b)))
-// Nat.comm.b Nat.zero     b = Equal.refl
-// Nat.comm.b (Nat.succ a) b = (Equal.apply @x(Nat.succ x) (Nat.comm.b a b))
-
-// Nat.comm (a: Nat) (b: Nat) : (Equal Nat (Nat.add a b) (Nat.add b a))
-// Nat.comm Nat.zero     b = (Nat.comm.a b)
-// Nat.comm (Nat.succ a) b =
-//   let e0 = (Equal.apply @x(Nat.succ x) (Nat.comm a b))
-//   let e1 = (Equal.mirror (Nat.comm.b b a))
-//   (Equal.chain e0 e1)
-
 Nat.to_u60 (n: Nat) : U60
 Nat.to_u60 Nat.zero     = #0
 Nat.to_u60 (Nat.succ n) = (+ #1 (Nat.to_u60 n))
   
- 
-// Nat.mul.comm.a (x: Nat): (Equal (Nat.mul x Nat.zero) Nat.zero)
-// Nat.mul.comm.a Nat.zero = Equal.refl
-// Nat.mul.comm.a (Nat.succ x) =
-//   let e0 = (Nat.mul.comm.a x)
-//   let e1 = (Equal.apply @y(Nat.add y Nat.zero) e0)
-//   e1
-
-
 List (a: Type) : Type
 List.nil <a> : (List a)
 List.cons <a> (x: a) (xs: (List a)) : (List a)
@@ -151,159 +113,20 @@ Example.bool : (List(List Bool)) {
 
 
 Main {
- Example.U60
+  Example.U60
   // Example.bool
 }
 
 
-
-
-// type Nat {
-//   zero
-//   succ(pred: Nat)
+// Nat.ltn a b = match Bool x = (algo ...) {
+//   true  => ...
+//   false => ...
 // }
-
-// // Doubles a number
-// dbl(a: Nat): Nat // double
-//   case a {
-//     zero: Nat.zero
-//     succ: Nat.succ(Nat.succ(dbl(a.pred)))
+// como é bool, pode usar if
+// Nat.ltn a b = if (algo ...) { ... } else { ... }
+// Double (x: Nat) : Nat {
+//   match x {
+//     zero => Nat.zero
+//     succ => (Nat.succ (Nat.succ (Double x.pred)))
 //   }
-
-// // Addition
-// add(a: Nat, b: Nat): Nat
-//   case a { 
-//     zero: b
-//     succ: case b {
-//       zero: a
-//       succ: Nat.succ(Nat.succ(add(b.pred, a.pred)))
-//     }
-//   }
-
-// // Multiplication
-// mul(a: Nat, b: Nat): Nat
-//   case a { 
-//     zero: Nat.zero
-//     succ: case b {
-//       zero: Nat.zero
-//       succ: add(b,(mul(a.pred, b)))
-//     }
-//   }
-
-// // Subtraction
-// // 4 - 5 = 0
-// // 5 - 4 = 1
-// sub(a: Nat, b: Nat): Nat
-//   case a {
-//     zero: Nat.zero
-//     succ: case b{
-//       zero: a
-//       succ: sub(a.pred,b.pred) 
-//     }
-//   }
-// // Factorial
-// // 4! = 24
-// fac(a: Nat): Nat 
-//   case a {
-//     zero: Nat.succ(a)
-//     succ: mul((fac(a.pred)), a)
-//   }
-
-// // Equal
-// eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
-//   case a {
-//     zero: case b{
-//       zero: Bool.true
-//       succ: Bool.false
-//     }
-//     succ: case b{
-//       zero: Bool.false
-//       succ: eql(a.pred, b.pred)
-//     }
-//   }
-// // Do not use the "not" function to create the functions below
-
-// // Greater than
-// // 2 > 1 = True
-// // 3 > 3 = False
-// gtn(a: Nat, b: Nat): Bool // if A > B == True else false
-//   case a {
-//     zero: Bool.false
-//     succ: case b {
-//       zero: Bool.true
-//       succ: gtn(a.pred, b.pred)
-//     }
-//   }
-
-// // Lower than
-// // 1 < 2 = True
-// // 3 < 3 = False
-// ltn(a: Nat, b: Nat): Bool // if A > B == False else true 
-//   case a {
-//     zero: case b{
-//       zero: Bool.false
-//       succ: Bool.true
-//     }
-//     succ: case b{
-//       zero: Bool.false
-//       succ: ltn(a.pred, b.pred)
-//     }
-//   }
-// // Minimum
-// // min(2, 3) = 2
-// // min(4, 1) = 1
-// min(a: Nat, b: Nat): Nat // if A < B then A else B
-//   case ltn(a,b){
-//     true: a
-//     false: b
-//   }
-
-// // Maximum
-// // max(2, 3) = 3
-// // max(4, 1) = 4
-// max(a: Nat, b: Nat): Nat // if A > B then A else B
-//   case gtn(a,b){
-//     true: a
-//     false: b
-//   }
-
-
-// // Divides a number by two
-// // 2 / 2 = 1
-// // 5 / 2 = 2
-// // 1 / 2 = 0
-// hlf(a: Nat): Nat
-//   case a {
-//     zero: Nat.zero
-//     succ: case a.pred{
-//       zero: Nat.zero
-//       succ: Nat.succ(hlf(a.pred.pred))
-//     }
-//   }
-
-// // Division
-// // 1 / 2 = 0
-// // x / 0 = 0
-// // 5 / 2 = 2
-// div(a: Nat, b: Nat): Nat
-// case eql(a,b) {
-//   true: divgo(a,b)
-//   false: divr(a,b)
 // }
-
-// divr(a: Nat, b: Nat): Nat// 6/2 2
-// case a {
-//     zero: Nat.zero
-//     succ: case sub(Nat.succ(a),b) {
-//       zero: Nat.zero
-//       succ: Nat.succ(divr(sub(a, b), b))
-//       }
-//   }
-// divgo(a: Nat, b: Nat): Nat // division 5/2 = 3
-//  case a {
-//     zero: Nat.zero
-//     succ: case b{
-//       zero: Nat.zero 
-//       succ: Nat.succ(divgo(sub(a, b), b))
-//     }
-//   }

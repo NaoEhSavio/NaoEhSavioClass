@@ -140,20 +140,20 @@ Inte.dbl (Inte.neg (Neg.pred a))  = (Inte.dec(Inte.dec(Inte.dbl(Inte.neg a))))
 // int(false, 4) + int(false, 2) = -6
 // int(false, 4) + int(true,  2) = -2
 Inte.add (a: Inte) (b: Inte): Inte
-Inte.add (Inte.pos (Pos.zero)) (Inte.pos (Pos.zero))      = (Inte.pos (Pos.zero))
-Inte.add (Inte.pos a) (Inte.pos (Pos.zero))               = (Inte.pos a)
-Inte.add (Inte.pos (Pos.zero)) (Inte.pos b)               = (Inte.pos b)
-Inte.add (Inte.pos (Pos.succ a)) (Inte.pos (Pos.succ b))  = (Inte.inc(Inte.inc(Inte.add (Inte.pos a) (Inte.pos b))))
-Inte.add (Inte.neg (Neg.one)) (Inte.neg (Neg.one))        = (Inte.neg(Neg.pred(Neg.one)))
-Inte.add (Inte.neg a) (Inte.neg (Neg.one))                = (Inte.neg(Neg.pred a))
-Inte.add (Inte.neg (Neg.one)) (Inte.neg b)                = (Inte.neg(Neg.pred b))
-Inte.add (Inte.neg (Neg.pred a)) (Inte.neg (Neg.pred b))  = (Inte.dec(Inte.dec(Inte.add (Inte.neg a) (Inte.neg b))))
-Inte.add (Inte.neg (Neg.one)) (Inte.pos (Pos.zero))       = (Inte.neg (Neg.one))
-Inte.add (Inte.neg a) (Inte.pos (Pos.zero))               = (Inte.neg a)
-Inte.add (Inte.pos (Pos.zero)) (Inte.neg (Neg.one))       = (Inte.neg (Neg.one))
-Inte.add (Inte.pos (Pos.zero)) (Inte.neg b)               = (Inte.neg b)
-Inte.add (Inte.pos a) (Inte.neg b)                        = ?
-Inte.add (Inte.neg a) (Inte.pos b)                        = ?
+Inte.add (Inte.pos (Pos.zero))    (Inte.pos (Pos.zero))   = (Inte.pos (Pos.zero))
+Inte.add (Inte.pos a) (Inte.pos   (Pos.zero))             = (Inte.pos a)
+Inte.add (Inte.pos (Pos.zero))    (Inte.pos b)            = (Inte.pos b)
+Inte.add (Inte.pos (Pos.succ a))  (Inte.pos (Pos.succ b)) = (Inte.inc(Inte.inc(Inte.add (Inte.pos a) (Inte.pos b))))
+Inte.add (Inte.neg (Neg.one))     (Inte.neg (Neg.one))    = (Inte.neg(Neg.pred(Neg.one)))
+Inte.add (Inte.neg a)             (Inte.neg (Neg.one))    = (Inte.neg(Neg.pred a))
+Inte.add (Inte.neg (Neg.one))     (Inte.neg b)            = (Inte.neg(Neg.pred b))
+Inte.add (Inte.neg (Neg.pred a))  (Inte.neg (Neg.pred b)) = (Inte.dec(Inte.dec(Inte.add (Inte.neg a) (Inte.neg b))))
+Inte.add (Inte.neg (Neg.one))     (Inte.pos (Pos.zero))   = (Inte.neg (Neg.one))
+Inte.add (Inte.neg a)             (Inte.pos (Pos.zero))   = (Inte.neg a)
+Inte.add (Inte.pos (Pos.zero))    (Inte.neg (Neg.one))    = (Inte.neg (Neg.one))
+Inte.add (Inte.pos (Pos.zero))    (Inte.neg b)            = (Inte.neg b)
+Inte.add (Inte.pos a)             (Inte.neg b)            = ?
+Inte.add (Inte.neg a)             (Inte.pos b)            = ?
 // Inte.add (Inte.neg a) (Inte.pos (Pos.zero))               = 
 
 // Multiplies two Integers
