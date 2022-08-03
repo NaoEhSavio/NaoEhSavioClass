@@ -1,0 +1,166 @@
+// Advanced exercises involving recursion
+
+type Nat {
+  zero
+  succ(pred: Nat)
+}
+
+// Doubles a number
+dbl(a: Nat): Nat // double
+  case a {
+    zero: Nat.zero
+    succ: Nat.succ(Nat.succ(dbl(a.pred)))
+  }
+
+// Addition
+add(a: Nat, b: Nat): Nat
+  case a { 
+    zero: b
+    succ: case b {
+      zero: a
+      succ: Nat.succ(Nat.succ(add(b.pred, a.pred)))
+    }
+  }
+
+// Multiplication
+mul(a: Nat, b: Nat): Nat
+  case a { 
+    zero: Nat.zero
+    succ: case b {
+      zero: Nat.zero
+      succ: add(b,(mul(a.pred, b)))
+    }
+  }
+
+// Subtraction
+// 4 - 5 = 0
+// 5 - 4 = 1
+sub(a: Nat, b: Nat): Nat
+  case a {
+    zero: Nat.zero
+    succ: case b{
+      zero: a
+      succ: sub(a.pred,b.pred) 
+    }
+  }
+// Factorial
+// 4! = 24
+fac(a: Nat): Nat 
+  case a {
+    zero: Nat.succ(a)
+    succ: mul((fac(a.pred)), a)
+  }
+
+// Equal
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+  case a {
+    zero: case b{
+      zero: Bool.true
+      succ: Bool.false
+    }
+    succ: case b{
+      zero: Bool.false
+      succ: eql(a.pred, b.pred)
+    }
+  }
+// Do not use the "not" function to create the functions below
+
+// Greater than
+// 2 > 1 = True
+// 3 > 3 = False
+gtn(a: Nat, b: Nat): Bool // if A > B == True else false
+  case a {
+    zero: Bool.false
+    succ: case b {
+      zero: Bool.true
+      succ: gtn(a.pred, b.pred)
+    }
+  }
+
+// Lower than
+// 1 < 2 = True
+// 3 < 3 = False
+ltn(a: Nat, b: Nat): Bool // if A > B == False else true 
+  case a {
+    zero: case b{
+      zero: Bool.false
+      succ: Bool.true
+    }
+    succ: case b{
+      zero: Bool.false
+      succ: ltn(a.pred, b.pred)
+    }
+  }
+// Minimum
+// min(2, 3) = 2
+// min(4, 1) = 1
+min(a: Nat, b: Nat): Nat // if A < B then A else B
+  case ltn(a,b){
+    true: a
+    false: b
+  }
+
+// Maximum
+// max(2, 3) = 3
+// max(4, 1) = 4
+max(a: Nat, b: Nat): Nat // if A > B then A else B
+  case gtn(a,b){
+    true: a
+    false: b
+  }
+
+
+// Divides a number by two
+// 2 / 2 = 1
+// 5 / 2 = 2
+// 1 / 2 = 0
+hlf(a: Nat): Nat
+  case a {
+    zero: Nat.zero
+    succ: case a.pred{
+      zero: Nat.zero
+      succ: Nat.succ(hlf(a.pred.pred))
+    }
+  }
+
+// Division
+// 1 / 2 = 0
+// x / 0 = 0
+// 5 / 2 = 2
+div(a: Nat, b: Nat): Nat
+case eql(a,b) {
+  true: divgo(a,b)
+  false: divr(a,b)
+}
+
+divr(a: Nat, b: Nat): Nat// 6/2 2
+case a {
+    zero: Nat.zero
+    succ: case sub(Nat.succ(a),b) {
+      zero: Nat.zero
+      succ: Nat.succ(divr(sub(a, b), b))
+      }
+  }
+divgo(a: Nat, b: Nat): Nat // division 5/2 = 3
+ case a {
+    zero: Nat.zero
+    succ: case b{
+      zero: Nat.zero 
+      succ: Nat.succ(divgo(sub(a, b), b))
+    }
+  }
+ex_04: IO<Unit>
+  IO {
+    Tests._04.dbl(dbl)
+    Tests._04.add(add)
+    Tests._04.mul(mul)
+    Tests._04.sub(sub)
+    Tests._04.fac(fac)
+    Tests._04.eql(eql)
+    Tests._04.gtn(gtn)
+    Tests._04.ltn(ltn)
+    Tests._04.min(min)
+    Tests._04.max(max)
+    Tests._04.hlf(hlf)
+    Tests._04.div(div)
+  }

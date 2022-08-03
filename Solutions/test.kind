@@ -1,0 +1,33 @@
+type BitsMap <A: Type> {
+  new,
+  tie(val: Maybe<A>, lft: BitsMap<A>, rgt: BitsMap<A>),
+}
+
+// Recebe uma chave em Bits que dirá o caminho a ser percorrido até achar o elemento que você quer
+// No momento em que o seu bit chegar a Bits.e significa que você chegou ao seu destino, e pode retornar o valor
+// Se cair em um BitsMap.new, retornar none, já que o caminho que você fez não levou a lugar nenhum
+get<A: Type>(bits: Bits, map: BitsMap<A>): Maybe<A>
+  case bits{
+    e: case map{
+      new: Maybe.none<A>
+      tie: map.val
+    }
+    i: case map{
+      new: Maybe.none<A>
+      tie: get<A>(bits.pred, map.rgt)
+    }
+    o: case map{
+      new: Maybe.none<A>
+      tie: get<A>(bits.pred, map.lft)
+    }
+  }
+
+test: _
+  let map = BitsMap.new!
+  let map = BitsMap.set!(Bits.o(Bits.e),         0  , map)
+  let map = BitsMap.set!(Bits.i(Bits.e),         1  , map)
+  let map = BitsMap.set!(Bits.o(Bits.i(Bits.e)), 2  , map)
+  let map = BitsMap.set!(Bits.i(Bits.i(Bits.e)), 3  , map)
+  let map = BitsMap.set!(Nat.to_bits(127),       127, map)
+  let map = BitsMap.set!(Nat.to_bits(14),        14 , map)
+  Maybe.show!(Nat.show, get!(Bits.i(Bits.e), map))

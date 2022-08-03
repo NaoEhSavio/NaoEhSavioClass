@@ -1,0 +1,88 @@
+// Basic Exercises involving Bools
+
+type Bool {
+  true
+  false
+}
+
+// Is true
+// Returns true if input is true
+is_true(a: Bool): Bool
+  a 
+
+
+// Is false
+// Returns true if input is false
+is_false(a: Bool): Bool
+  case a {
+    true: false
+    false: true
+  }
+
+// Negation
+// Returns the opposite of a Bool
+neg(b: Bool): Bool 
+  is_false(b)
+
+// And
+// Returns true if both inputs are true
+and(a: Bool, b: Bool): Bool
+  case a b{
+    true true: Bool.true
+  } default Bool.false
+
+// Or
+// Returs true if any input is true
+or(a: Bool, b: Bool): Bool
+  case a b{
+    false false: Bool.false
+  } default Bool.true
+
+// Equal
+// Returs true if both inputs are identical
+eql(a: Bool, b: Bool): Bool
+  case a b{
+    true true: Bool.true
+    false false: Bool.true
+  } default Bool.false
+
+// Xor
+// Returns true if both inputs are different
+xor(a: Bool, b: Bool): Bool
+  case a b {
+    true false: Bool.true
+    false true: Bool.true
+  } default Bool.false
+
+// Nor
+// Returns true if both inputs are false
+nor(a: Bool, b: Bool): Bool
+  case a b {
+    false false: Bool.true
+  }default Bool.false
+
+// Nand
+// Returns false only if both inputs are true
+nand(a: Bool, b: Bool): Bool
+  case a b {
+    true true: Bool.false
+  } default Bool.true
+
+// Xnor
+// Returns true if both inputs are identical
+xnor(a: Bool, b: Bool): Bool
+  eql(a,b)
+
+ex_00: IO<Unit>
+  IO {
+    Tests._00.is_true(is_true)
+    Tests._00.is_false(is_false)
+    Tests._00.neg(neg)
+    Tests._00.and(and)
+    Tests._00.or(or)
+    Tests._00.eql(eql)
+    Tests._00.xor(xor)
+    Tests._00.nor(nor)
+    Tests._00.nand(nand)
+    Tests._00.xnor(xnor)
+  }

@@ -1,0 +1,73 @@
+equal(x: Char, y: Char): Bool
+  U16.eql(x,y)
+
+concat(xs: String, ys: String): String
+  case xs {
+    nil: ys
+    cons: case ys {
+      nil: xs
+      cons: String.cons(xs.head, concat(xs.tail, ys))
+    }
+  }
+
+drop(n: Nat, xs: String): String
+  case n {
+    zero: xs
+    succ: case xs {
+      nil: String.nil
+      cons: drop(n.pred, xs.tail) 
+    }
+  }
+
+take(n: Nat xs: String): String
+ case n {
+   zero: String.nil
+   succ: case xs {
+     nil: String.nil
+     cons: concat(Char.to_string(xs.head), take(n.pred, xs.tail))
+   } 
+ }
+
+stringequal(xs: String, ys: String): Bool
+  case xs {
+    nil: case ys {
+      nil: Bool.true
+      cons: Bool.false
+    }
+    cons: case ys{
+      nil: Bool.false
+      cons: Bool.and(equal(xs.head, ys.head), stringequal(xs.tail, ys.tail))
+    }
+  }
+flatten(lxs: List<String>): String
+  case lxs {
+    nil: String.nil
+    cons: concat(lxs.head, flatten(lxs.tail))
+    // lxs.head: String
+    // lxs.tail: List(String)
+  }
+
+Find_and_replace(to_remove: String, to_add: String, str: String): String
+  flatten(Find_and_replace.go(to_remove, to_add, str, "", String.length(to_remove)))
+
+Find_and_replace.go(to_remove: String, to_add: String, str: String, acum: String, const: Nat): List<String>
+  case str {
+    nil:  List.cons<String>(acum,List.nil<String>)
+    cons: case to_remove {
+      nil: List.cons<String>(str,List.nil<String>)
+      cons: case to_add {
+        nil: List.cons<String>(str,List.nil<String>)
+        cons: case stringequal(to_remove, take(const, str)){
+          true: List.cons<String>(concat(acum, to_add),  Find_and_replace.go(to_remove, to_add, drop(const, str), "", const))
+          false: Find_and_replace.go(to_remove, to_add, str.tail, concat(acum, Char.to_string(str.head)), const)
+        }
+      }
+    }
+  }
+
+
+
+
+teste3: String
+  Find_and_replace("word test", "dere corgan", "In this test, the word test should be replaced by the word example.")
+  // This should be the result: "In this example, the word example should be replaced by the word example." 

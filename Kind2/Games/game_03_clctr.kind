@@ -1,0 +1,75 @@
+// This is a impletantion challenge of a simple Calculator. You have to assume that all 
+// user inputs will follow this model: "fst op snd". ("fst", "op" and "snd" can be any String)
+// Examples: 
+// "9 + 8"        
+// "1239 * 832" 
+// "pos d 890"   
+// "932 / asdas"
+
+
+
+// Gets a first element (it can either be a number or not) of the expression as a String 
+// Examples: 
+// get_first_num("9 + 8")        = "9"
+// get_first_num("1239 * 832")   = "1239"
+// get_first_num("pos d 890")    = "pos"
+// get_first_num("932 / asdas")  = "932"
+get_first_num(exp: String): String 
+	?a
+
+// Gets a expression operator (it can either be a operator or not) as a Char 
+// Examples: 
+// get_operator("9 + 8")        = "+"
+// get_operator("1239 * 832")   = "*"
+// get_operator("pos d 890")    = "d"
+// get_operator("932 / asdas")  = "/"
+get_operator(exp: String): Char 
+	?b
+
+// Gets the second element (it can either be a number or not) of a expression as a String
+// Examples: 
+// get_second_num("9 + 8")        = "8"
+// get_second_num("1239 * 832")   = "832"
+// get_second_num("pos d 890")    = "890"
+// get_second_num("932 / asdas")  = "asdas" 
+get_second_num(exp: String): String 
+  ?c
+
+// Cheks if all elements of the expression are valid (first number, operator and second number)
+// You can choose what operators will work in your calculator. 
+// Examples: 
+// is_expression_valid("9 + 8")        = true
+// is_expression_valid("1239 * 832")   = true
+// is_expression_valid("pos d 890")    = false
+// is_expression_valid("932 / asdas")  = false
+is_expression_valid(fst: String, op: Char, snd: String): Bool 	
+	?d
+
+// Gets the expression result 
+get_result(fst: Nat, op: Char, snd: Nat): Nat
+	?e
+
+game_03_clctr: IO<Unit>
+	IO {
+		IO.print("Digite sua expressão: ")
+		get exp = IO.get_line // Assign the user input to the variable exp as a String
+
+		let first_num  = ?f // get the first number of "exp"
+		let second_num = ?g // get the second number of "exp"
+		let operator   = ?h // get the operator of "exp"
+
+		case is_expression_valid(first_num, operator, second_num) {
+			true:
+			  // Displays "exp" result and restarts the program 
+				IO {
+					IO.print(?i)
+					game_03_clctr
+				} 
+			false:
+				// Displays a message in case exp is invalid and restarts the program 
+				IO {
+				IO.print("Expressão inválida")
+				game_03_clctr
+				}   
+		} 
+	}

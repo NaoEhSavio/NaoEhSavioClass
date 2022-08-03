@@ -1,0 +1,97 @@
+// Irrelevant code, it is just here to run the main function
+
+sort_descending(horses: List<Nat>): List<Nat>
+  List.reverse!(List.sort!(Nat.cmp, horses))
+
+show_horses(horses: List<List<Nat>>): String
+  List.show!(List.show!(Nat.show), horses)
+
+create_horses(count: Nat, seed: Nat): List<Nat>
+  case count {
+    zero:
+      List.nil!
+    succ: 
+      List.cons!(seed % 1000, create_horses(count - 1, Nat.random(seed)))
+  }
+
+horses_idx_speed(max: Nat, idxs: List<Nat>, horses: List<Nat>): List<Pair<Nat, Nat>>
+  let id_hrs       = get_places(max, idxs, horses)
+  List.reverse!(List.sort!((x, y) Nat.cmp(x@snd, y@snd), id_hrs))
+
+get_places(max: Nat, idxs: List<Nat>, horses: List<Nat>): List<Pair<Nat, Nat>>
+  if max =? 0 then
+    []
+  else
+    case idxs {
+      nil: []
+      cons: 
+        let horse = List.get!(idxs.head, horses) <> 0
+        List.cons!({idxs.head, horse}, get_places(max - 1, idxs.tail, horses))
+    }
+
+run_races(count: Nat, strat: Strategy, horses: List<Nat>): Maybe<Nat>
+  case strat {
+    race:
+      let idxs_to_race   = strat.to_race
+      let horses_to_race = horses_idx_speed(5, idxs_to_race, horses)
+      let horses_to_race = List.map!!((x) x@fst, horses_to_race)
+      let new_strat      = strat.next(horses_to_race)
+      run_races(count + 1, new_strat, horses)
+    end:
+      let try    = horses_idx_speed(3, [strat.fst, strat.snd, strat.trd], horses)
+      let try    = List.map!!((x) x@snd, try)
+      let answer = List.take!(3, sort_descending(horses))
+      if List.eql!(Nat.eql, try, answer) then
+        log("Correct guess!")
+        log("")        
+        some(count)
+      else
+        none
+  } 
+
+challenge(strat: Strategy): String
+  let {max_count, all_correct} = challenge.go(100, strat, 0, true)
+  if all_correct then 
+    "You guessed all horses correctly!, it took you " | Nat.show(max_count) | " tries at maximum!"
+  else
+    "You did not guess all of the horses correctly"
+
+challenge.go(count: Nat, strat: Strategy, max_races: Nat, all_correct: Bool): Pair<Nat, Bool>
+  case count {
+    zero: {max_races, all_correct}
+    succ:
+      let seed        = count
+      let horses      = create_horses(25, seed)
+      log("Horses for the group " | Nat.show(100 - count) | ":")
+      log(List.show!(Nat.show, horses))
+      let races_count = run_races(0, strat, horses)
+      without races_count: {max_races, false}
+      challenge.go(count - 1, strat, Nat.max(max_races, races_count), true && all_correct)
+  }
+// ##############################################
+
+// The Challenge:
+
+// There are 25 horses among which you need to find out the fastest 3 horses.
+// You can conduct race among at most 5 to find out their relative speed.
+// At no point you can find out the actual speed of the horse in a race.
+// Create a Strategy to discover the top 3 horses in least possible number of races. 
+
+type Strategy {
+  // Choses the idx of 5 horses to race, then receives the result and continues the Strategy
+  race(to_race: List<Nat> next: List<Nat> -> Strategy)
+  // Ends the game, declaring the 3 winners
+  end(fst: Nat, snd: Nat, trd: Nat)
+}
+// "next" in "race" is a function that receives the result of your proposed race (the idx ordered by speed)
+// and returns a new strategy (which can be either another race to be run or the end of the strategy)
+
+game_04_horse_race: _
+  challenge(my_strategy)  
+
+// ##############################################
+// Edit below this line
+
+// Your strategy:
+my_strategy: Strategy
+  Strategy.end(0, 0, 0)

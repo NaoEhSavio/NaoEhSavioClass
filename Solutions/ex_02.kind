@@ -1,0 +1,78 @@
+// type PairBool
+// Contains 2 Booleans inside it
+type PairBool { 
+  new(fst: Bool, snd: Bool)
+}
+
+// Returns the first element of a pair
+fst(pair: PairBool): Bool
+  case pair{
+    new: pair.fst
+  }
+
+// Returns the second element of a pair
+snd(pair: PairBool): Bool
+  case pair{
+    new: pair.snd
+  }
+
+// Returns true if both elements of a PairBool are identical
+eql_elements(pair: PairBool): Bool 
+  case pair{
+    new: Bool.eql(pair.fst, pair.snd)
+    
+    }
+  
+// Returns true if both Pairs are equal 
+// eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
+// eql(PairBool.new(true, false), PairBool.new(true, false)) -> true
+eql(a: PairBool, b: PairBool): Bool
+  case a b {
+    new new: case a.fst b.fst a.snd b.snd{
+      true true true true: true
+      false false true true: true
+      true true false false: true
+      false false false false: true       
+    }default false 
+  }
+
+// Returns true if both Pairs are different
+// not_eql(PairBool.new(false, false), PairBool.new(true, true)) -> true 
+// not_eql(PairBool.new(true, false), PairBool.new(true, false)) -> false
+not_eql(a: PairBool, b: PairBool): Bool
+  case a b {
+  new new: case a.fst b.fst a.snd b.snd{
+    true true true true: false
+    false false true true: false
+    true true false false: false
+    false false false false: false       
+  }default true
+}
+  
+// Creates a PairBool from 2 Booleans
+create(a: Bool, b: Bool): PairBool
+  PairBool.new(a,b)
+
+// Inverts the values of a PairBool
+// neg(PairBool.new(false, false)) -> PairBool.new(true, true)
+// neg(PairBool.new(false, true)) -> PairBool.new(true, false)
+neg(pair: PairBool): PairBool
+ case pair {
+   new: PairBool.new(Bool.not(pair.fst),Bool.not(pair.snd))
+ }
+// Inverts the 2 elements of a PairBool
+swap(pair: PairBool): PairBool 
+  case pair {
+    new: PairBool.new(pair.snd, pair.fst)
+  }
+ex_02: IO<Unit>
+  IO {
+    Tests._02.fst(fst)
+    Tests._02.snd(snd)
+    Tests._02.eql_elements(eql_elements)
+    Tests._02.eql(eql)
+    Tests._02.not_eql(not_eql)
+    Tests._02.create(create)
+    Tests._02.neg(neg)
+    Tests._02.swap(swap)
+  }

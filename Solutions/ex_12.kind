@@ -1,0 +1,201 @@
+type BitsMap<A: Type> { 
+  new
+  tie(val: Maybe<A>, lft: BitsMap<A>, rgt: BitsMap<A>)
+}
+
+// Given a Key and a Value, sets the given value to that key in the tree, if
+// that key already belongs to another value, it should be replaced with the new
+// one
+
+set<A: Type>(key: Bits, value: A, map: BitsMap<A>): BitsMap<A>
+  case key {
+    e: case map {
+        new: BitsMap.tie<A>(Maybe.some<A>(value), BitsMap.new<A>, BitsMap.new<A>)
+        tie: BitsMap.tie<A>(Maybe.some<A>(value), map.lft, map.rgt)
+      }
+    o: case map {
+        new: BitsMap.tie<A>(Maybe.none<A>, set<A>(key.pred, value, BitsMap.new<A>), BitsMap.new<A>)
+        tie: BitsMap.tie<A>(map.val, set<A>(key.pred, value, map.lft), map.rgt)
+      }
+    i: case map {
+        new: BitsMap.tie<A>(Maybe.none<A>, BitsMap.new<A>, set<A>(key.pred, value, BitsMap.new<A>))
+        tie: BitsMap.tie<A>(map.val, map.lft, set<A>(key.pred, value, map.rgt))
+      }
+  }
+
+
+
+// Given a key, gets the value that correspond to the given key, 
+// If there it is no value for the key, returns Maybe.none<A>
+
+get<A: Type>(key: Bits, map:BitsMap<A>): Maybe<A>
+  case key map {
+      e new: Maybe.none<A>
+      e tie: map.val
+      o new: Maybe.none<A>
+      o tie: get<A>(key.pred, map.rgt)
+      i new: Maybe.none<A>
+      i tie: get<A>(key.pred, map.rgt)
+  // case key{
+  //   e: case map{
+  //     new: Maybe.none<A>
+  //     tie: map.val
+  //   }
+  //   i: case map{
+  //     new: Maybe.none<A>
+  //     tie: get<A>(key.pred, map.rgt)
+  //   }
+  //   o: case map{
+  //     new: Maybe.none<A>
+  //     tie: get<A>(key.pred, map.lft)
+  //   }
+  }
+
+
+
+//Applies a function to a Value of the specific key and returns the same map but
+//with the specific value applied to the function, if the value isnt find,
+//doesn't change the map
+
+mut<A: Type>(key: Bits, fn: A -> A, map: BitsMap<A>): BitsMap<A>
+  case key map {
+    e new: BitsMap.new<A>
+    e tie: case map.val {
+        none: BitsMap.tie<A>(map.val, map.lft, map.rgt)
+        some: BitsMap.tie<A>(Maybe.some<A>(fn(map.val.value)), map.lft, map.rgt)
+        }
+    o new: BitsMap.new<A>
+    o tie: BitsMap.tie<A>(map.val, mut<A>(key.pred, fn, map.lft), map.rgt)
+    i new: BitsMap.new<A>
+    i tie: BitsMap.tie<A>(map.val, map.lft, mut<A>(key.pred, fn, map.rgt))
+  }
+
+//Deletes a Value of the map within the given key, returns the same map if no
+//value is found for that key
+
+//Receives:
+  // key of the type Bits
+  // map of the type BitsMap<A>
+  // returns a Maybe<A>
+
+// del<A: Type>(key: Bits, map: BitsMap<A>): Maybe<A>
+//   case key {
+//     e: case map {
+//       new: Maybe.none<A>
+//       tie: Maybe.none<A> //del.go(map.val) 
+//     }
+//     i: case map {
+//       new: Maybe.none<A>
+//       tie: del<A>(key.pred, map.rgt)
+//     }
+//     o: case map {
+//       new: Maybe.none<A>
+//       tie: del<A>(key.pred, map.lft)
+//     }
+//   }
+// del.go<A: Type>(key: Bits, map: BitsMap<A>):  BitsMap<A>
+//   case key {
+//     e: case map {
+//         new: BitsMap.tie<A>(Maybe.none<A>, BitsMap.new<A>, BitsMap.new<A>)
+//         tie: BitsMap.tie<A>(Maybe.none<A>, map.lft, map.rgt)
+//       }
+//     o: case map {
+//         new: BitsMap.tie<A>(Maybe.none<A>, del.go<A>(key.pred, BitsMap.new<A>), BitsMap.new<A>)
+//         tie: BitsMap.tie<A>(map.val, del.go<A>(key.pred, map.lft), map.rgt)
+//       }
+//     i: case map {
+//         new: BitsMap.tie<A>(Maybe.none<A>, BitsMap.new<A>, del.go<A>(key.pred, BitsMap.new<A>))
+//         tie: BitsMap.tie<A>(map.val, map.lft, del.go<A>(key.pred,  map.rgt))
+//       }
+//   }
+
+//Verifies if has any value for the given key, if has no value returns false, if
+//has the value returns true
+  
+//Receives:
+  // key of the type Bits
+  // map of the type BitsMap<A>
+  // returns a Bool
+
+has<A: Type>(key: Bits, map: BitsMap<A>): Bool
+  case key {
+    e: case map {
+      new: Bool.false
+      tie: case map.val{
+        none: Bool.false
+        some: Bool.true
+      } 
+    }
+    i: case map {
+      new: Bool.false
+      tie: has<A>(key.pred, map.rgt)
+    }
+    o: case map {
+      new: Bool.false
+      tie: has<A>(key.pred, map.lft)
+    }
+  }
+
+
+
+
+
+
+BitsMap.show<A: Type>(show: A -> String, map: BitsMap<A>): String
+  BitsMap.show.go<A>(1, show, map)
+
+BitsMap.show.go<A: Type>(depth: Nat, show: A -> String, map: BitsMap<A>): String
+  let n = String.repeat(" ", depth)
+    case map {
+      new: " Empty"
+      tie:
+        " Tie(" | Maybe.show<A>(show, map.val) |
+        "\n " | n | "Lft: " | BitsMap.show.go<A>(depth +1, show, map.lft) |
+        "\n " | n | "Rgt: " | BitsMap.show.go<A>(depth +1, show, map.rgt) | ")"
+    }
+//Verifies all values of the map and if they don't match the condition gets
+//removed, if the condition is matched, the value and the key are kept
+
+
+filter<A: Type>(cond: A -> Bool, map: BitsMap<A>): BitsMap<A>
+  ?filter
+
+
+
+//Applies a function to  all values of the map and returns the map modified 
+
+map<A: Type, B: Type>(fn: A -> B, map: BitsMap<A>): BitsMap<B>
+  ?map
+
+
+
+// Returns a list of keys with all Keys of the map
+
+key<A: Type>(map: BitsMap<A>): List<Bits>
+  ?key
+
+
+
+//Unites two different maps into one, keeping its structure
+
+union<A: Type>(a: BitsMap<A>, b: BitsMap<A>): BitsMap<A>
+  ?union
+
+
+//Stress Test for BitsMap
+
+stress_test(sets: Nat, gets: Nat): IO<Unit>
+  Tests.stress.bmap(sets, gets)
+
+ex_12: _ //IO(Unit)
+  stress_test(100, 100)
+  // let map = BitsMap.new!
+  // let map = set!(Bits.o(Bits.e),         0  , map)
+  // let map = set!(Bits.i(Bits.e),         1  , map)
+  // let map = set!(Bits.o(Bits.i(Bits.e)), 2  , map)
+  // let map = set!(Bits.i(Bits.i(Bits.e)), 3  , map)
+  // let map = set!(Nat.to_bits(127),       127, map)
+  // let map = set!(Nat.to_bits(14),        14 , map)
+  // IO.print(BitsMap.show<Nat>(Nat.show set<Nat>(Nat.to_bits(156), 125, map)))
+// BitsMap.show(map)
+  // Maybe.show!(Nat.show, get!(?insertyourbitshere, map))

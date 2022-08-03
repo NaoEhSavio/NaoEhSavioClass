@@ -1,0 +1,322 @@
+//Bits
+
+//File for exercises in Bits
+
+//e = empty
+//o = 0
+//i = 1
+type Bits { 
+  e
+  o(pred: Bits)
+  i(pred: Bits)
+}
+
+//a = Bits.i(Bits.i(Bits.e))
+//b = Bits.o(Bits.i(Bits.i(Bits.e)))
+//c = Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
+//d = Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+
+
+//Verifies if it is an Empty Bit
+
+//is_empty(a)      -> Bool.false
+//is_empty(b)      -> Bool.false
+//is_empty(c)      -> Bool.false
+//is_empty(d)      -> Bool.false
+//is_empty(Bits.e) -> Bool.true
+is_empty(b: Bits): Bool
+  case b {
+    e: true
+  } default false
+
+
+
+//Gets the Tail of a Bits structure
+
+//tail(a) -> Bits.i(Bits.e)
+//tail(b) -> Bits.i(Bits.i(Bits.e))
+//tail(c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
+//tail(d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
+tail(b: Bits): Bits
+  case b {
+    e: Bits.e
+    o: b.pred
+    i: b.pred
+  }
+
+
+//Negates all Bits
+
+//notb(a) -> Bits.o(Bits.o(Bits.e))
+//notb(b) -> Bits.i(Bits.o(Bits.o(Bits.e)))
+//notb(c) -> Bits.i(Bits.i(Bits.o(Bits.o(Bits.e))))
+//notb(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.e))))
+notb(b: Bits): Bits
+  case b{
+    e: Bits.e
+    o: Bits.i(notb(b.pred))
+    i: Bits.o(notb(b.pred))
+  }
+
+
+
+
+//Increments a Bit
+
+//inc(a) -> Bits.o(Bits.o(Bits.i(Bits.e)))
+//inc(b) -> Bits.i(Bits.i(Bits.i(Bits.e)))
+//inc(c) -> Bits.i(Bits.o(Bits.i(Bits.i(Bits.e))))
+//inc(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.i(Bits.e)))))
+inc(b: Bits): Bits
+  case b{
+  e: Bits.i(Bits.e)
+  o: Bits.i(b.pred)
+  i: Bits.o(inc(b.pred))
+}
+
+
+
+
+//Decrements a Bit
+
+//dec(a) -> Bits.o(Bits.i(Bits.e))
+//dec(b) -> Bits.i(Bits.o(Bits.i(Bits.e)))
+//dec(c) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.e))))
+//dec(d) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
+dec(b: Bits): Bits
+  case b{
+    e: Bits.e
+    o: case b.pred{
+      e: Bits.e
+      o: Bits.i(dec(b.pred))
+      i: Bits.i(dec(b.pred))
+      }
+    i: case b.pred {
+      e: Bits.o(Bits.e)
+      o: Bits.o(b.pred)
+      i: Bits.o(b.pred)
+    }
+  }
+
+
+
+
+
+//Concatenate two Bits structures
+
+//concat(a,b) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.i(Bits.e)
+//concat(b,c) -> Bits.o(Bits.i(Bits.i(Bits.o(Bits.o(Bits.i(Bits.i(Bits.e)))))))
+//concat(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))))))
+concat(a: Bits, b: Bits): Bits
+  case a {
+    e: b
+    o: Bits.o(concat(a.pred, b))
+    i: Bits.i(concat(a.pred, b))
+  }
+
+
+
+//Adds two Bits structures
+
+//add(a,b) -> Bits.i(Bits.o(Bits.o(Bits.i(Bits.e))))
+//add(b,c) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
+//add(c,d) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.i(Bits.e)))))
+add(a: Bits, b: Bits): Bits 
+  case a {
+    e: b
+    o: case b {
+      e: a
+      o: Bits.o(add(a.pred, b.pred))
+      i: Bits.i(add(a.pred, b.pred))
+    }
+    i: case b {
+      e: a
+      o: Bits.i(add(a.pred, b.pred))
+      i: Bits.o(add(a.pred, inc(b.pred)))
+    }
+  }
+
+
+
+
+//Returns Bits.i if only both bits are Bits.i
+
+//and(a,b) -> Bits.o(Bits.i(Bits.e))
+//and(b,c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
+//and(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
+and(a: Bits, b: Bits): Bits
+  case a {
+    e: Bits.e
+    o: case b {
+      e: Bits.e
+      o: Bits.o(and(a.pred, b.pred))
+      i: Bits.o(and(a.pred, b.pred))
+    }
+    i: case b {
+      e: Bits.e
+      o: Bits.o(and(a.pred, b.pred))
+      i: Bits.i(and(a.pred, b.pred))
+    }
+  }
+
+
+//Returns Bits.i if any of bits are Bits.i
+
+//or(a,b) -> Bits.i(Bits.i(Bits.i(Bits.e)))
+//or(b,c) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
+//or(c,d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+or(a: Bits, b: Bits): Bits
+  case a {
+    e: Bits.e
+    o: case b {
+      e: Bits.e
+      o: Bits.o(or(a.pred, b.pred))
+      i: Bits.i(or(a.pred, b.pred))
+    }
+    i: case b {
+      e: Bits.e
+      o: Bits.i(or(a.pred, b.pred))
+      i: Bits.i(or(a.pred, b.pred))
+    }
+  }
+
+
+
+//Verifies if both Bit structures are equal
+
+//eql(a,b) -> Bool.false
+//eql(b,c) -> Bool.false
+//eql(d,d) -> Bool.true
+eql(a: Bits, b: Bits): Bool
+  case a {
+  e: case b{
+    e: true
+    o: false
+    i: false
+  }
+  o: case b {
+    e: false
+    o: eql(a.pred, b.pred)
+    i: eql(a.pred, b.pred)
+  }
+  i: case b {
+    e: false
+    o: eql(a.pred, b.pred)
+    i: eql(a.pred, b.pred)
+  }
+}
+
+
+
+
+//Reverses a Bits structure
+
+reverse_go(b: Bits, acum: Bits): Bits
+  case b {
+    e: acum
+    o: reverse_go(b.pred, Bits.o(acum))
+    i: reverse_go(b.pred, Bits.i(acum))
+    }
+
+  
+
+
+//reverse(a) -> Bits.i(Bits.i(Bits.e))
+//reverse(b) -> Bits.i(Bits.i(Bits.o(Bits.e)))
+//reverse(c) -> Bits.i(Bits.i(Bits.o(Bits.o(Bits.e))))
+//reverse(d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+reverse(b: Bits): Bits
+  reverse_go(b, Bits.e)
+
+
+
+
+//Gets the length of the Bits structure
+
+length_go(bs: Bits, acum: Nat): Nat
+  case bs {
+    e: acum
+    o: length_go(bs.pred, Nat.succ(acum))
+    i: length_go(bs.pred, Nat.succ(acum))
+    }
+
+
+
+
+
+//length(a) -> Nat.succ(Nat.succ(Nat.zero))
+//length(b) -> Nat.succ(Nat.succ(Nat.succ(Nat.zero)))
+//length(c) -> Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))
+//length(d) -> Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))
+length(bs: Bits): Nat
+  length_go(bs, 0)
+
+
+
+//Multiplies two Bits structures
+// nao funciona a do kind base---
+mul_go(a: Bits, b: Bits, acum: Bits): Bits
+case b {
+  e: acum
+  i: mul_go(Bits.o(a), b.pred, acum)
+  o: mul_go(Bits.o(a), b.pred, Bits.add(a, acum))
+}
+
+
+//mul(a,b) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
+//mul(b,c) -> Bits.o(Bits.o(Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))))
+mul(a: Bits, b: Bits): Bits
+  mul_go(a, b, Bits.e)
+
+
+//Drops a n Number of Bits starting from from the least significative bit
+
+//drop(1, a) -> Bits.i(Bits.e)
+//drop(1, b) -> Bits.i(Bits.i(Bits.e))
+//drop(1, c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
+//drop(1, d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
+drop(n: Nat, bs: Bits): Bits
+  case n{
+    zero: bs
+    succ: case bs {
+      e: bs
+      o: drop(n.pred, bs.pred)
+      i: drop(n.pred, bs.pred)
+    }
+  }
+
+
+//Takes n Bits from the structure, starting from the least significative bit
+
+//take(1, a) -> Bits.i(Bits.e)
+//take(2, b) -> Bits.o(Bits.i(Bits.e))
+//take(3, c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
+//take(4, d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+take(n: Nat, bs: Bits): Bits
+  case n{
+    zero: Bits.e
+    succ: case bs {
+      e: Bits.e
+      o: Bits.o(take(n.pred, bs.pred))
+      i: Bits.i(take(n.pred, bs.pred))
+    }
+  }
+
+ex_07: IO<Unit>
+  IO {
+    Tests._07.is_empty(is_empty)
+    Tests._07.tail(tail)
+    Tests._07.not(notb)
+    Tests._07.inc(inc)
+    Tests._07.dec(dec)
+    Tests._07.concat(concat)
+    Tests._07.add(add)
+    Tests._07.and(and)
+    Tests._07.or(or)
+    Tests._07.eql(eql)
+    Tests._07.reverse(reverse)
+    Tests._07.length(length)
+    Tests._07.mul(mul)
+    Tests._07.drop(drop)
+    Tests._07.take(take)
+  }
