@@ -1,0 +1,74 @@
+// Bool
+// ----
+
+Bool : Type
+Bool.true : Bool
+Bool.false : Bool
+
+Bool.is_true (a: Bool) : Bool
+Bool.is_true a = a
+
+Bool.is_false (a: Bool) : Bool
+Bool.is_false Bool.true = Bool.false
+Bool.is_false Bool.false = Bool.true
+
+Bool.not (a: Bool) : Bool
+Bool.not Bool.true  = Bool.false
+Bool.not Bool.false = Bool.true
+
+Bool.and (a: Bool) (b: Bool) : Bool
+Bool.and Bool.true  Bool.true  = Bool.true
+Bool.and Bool.true  Bool.false = Bool.false
+Bool.and Bool.false Bool.true  = Bool.false
+Bool.and Bool.false Bool.false = Bool.false
+
+Bool.or (a: Bool) (b: Bool) : Bool
+Bool.or Bool.true Bool.true = Bool.true
+Bool.or Bool.true Bool.false = Bool.true
+Bool.or Bool.false Bool.true = Bool.true
+Bool.or Bool.false Bool.false = Bool.false
+
+Bool.eql (a: Bool) (b: Bool) : Bool
+Bool.eql Bool.true Bool.true = Bool.true
+Bool.eql Bool.true Bool.false = Bool.false
+Bool.eql Bool.false Bool.true = Bool.false
+Bool.eql Bool.false Bool.false = Bool.true
+
+Bool.xor (a: Bool) (b: Bool) : Bool
+Bool.xor Bool.true Bool.true = Bool.false
+Bool.xor Bool.true Bool.false = Bool.true
+Bool.xor Bool.false Bool.true = Bool.true
+Bool.xor Bool.false Bool.false = Bool.false
+
+Bool.nor (a: Bool) (b: Bool) : Bool
+Bool.nor Bool.true Bool.true = Bool.false
+Bool.nor Bool.true Bool.false = Bool.false
+Bool.nor Bool.false Bool.true = Bool.false
+Bool.nor Bool.false Bool.false = Bool.true
+
+Bool.nand (a: Bool) (b: Bool) : Bool
+Bool.nand Bool.true Bool.true = Bool.false
+Bool.nand Bool.true Bool.false = Bool.true
+Bool.nand Bool.false Bool.true = Bool.true
+Bool.nand Bool.false Bool.false = Bool.true
+
+Bool.xnor (a: Bool) (b: Bool) : Bool
+Bool.xnor Bool.true Bool.true = Bool.true
+Bool.xnor Bool.true Bool.false = Bool.false
+Bool.xnor Bool.false Bool.true = Bool.false
+Bool.xnor Bool.false Bool.false = Bool.true
+
+Bool.xnor2 (a: Bool) (b: Bool) : Bool
+Bool.xnor2 a b = (Bool.eql a b )  
+
+Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
+Bool.if r Bool.true  if_t if_f = if_t
+Bool.if r Bool.false if_t if_f = if_f
+
+// Bool.not_not_theorem (a: Bool) : (Equal Bool a (Bool.not (Bool.not a)))
+// Bool.not_not_theorem Bool.true  = (Equal.refl Bool Bool.true)
+// Bool.not_not_theorem Bool.false = (Equal.refl Bool Bool.false)
+
+// Bool.true_not_false (e: (Equal Bool Bool.true Bool.false)) : Empty
+// Bool.true_not_false e = (Equal.rewrite e @x (Bool.if Type x Unit Empty) Unit.new)
+

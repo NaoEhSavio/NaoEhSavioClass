@@ -1,0 +1,127 @@
+// // Basic exercises involving Lists
+
+// type List <A: Type> {
+//   nil
+//   cons(head: A, tail: List<A>)
+// }
+
+// // Returns the head of the List
+// head<A: Type>(xs: List<A>): Maybe<A>
+//   case xs {
+//     nil: none
+//     cons: some(xs.head)
+//     }
+
+// // Returns the list without the first element
+// tail<A: Type>(xs: List<A>): List<A>
+//   case xs {
+//     nil: List.nil<A>
+//     cons: xs.tail
+//     }
+
+
+// // Returns the length of a list
+// length<A: Type>(xs: List<A>): Nat
+//   case xs {
+//     nil: Nat.zero
+//     cons: Nat.succ(length<A>(xs.tail))
+//   }
+
+// // Returns the last element of a list
+// last<A: Type>(xs: List<A>): Maybe<A>
+//   case xs {
+//     nil: none
+//     cons: case xs.tail {
+//       nil: some(xs.head)
+//       cons: last<A>(xs.tail)
+//     }
+//   }
+
+// // Returns the list without the last element
+// init<A: Type>(xs: List<A>): List<A>
+//   case xs {
+//     nil: List.nil<A>
+//     cons: case xs.tail {
+//       nil: List.nil<A>
+//       cons: List.cons<A>(xs.head, init<A>(xs.tail))
+//     }
+//   }
+
+// // Concatenates two lists
+// concat<A: Type>(xs: List<A>, ys: List<A>): List<A>
+//   case xs {
+//     nil: ys
+//     cons: case ys {
+//       nil: xs
+//       cons: List.cons<A>(xs.head, concat<A>(ys, xs.tail))
+//     }
+//   }
+
+// // Removes n elements from the start of the list
+// // List.drop<Nat>(3, [1,2,3,4,5]) -> [4, 5]
+// drop<A: Type>(n: Nat, xs: List<A>): List<A>
+//   case n{
+//     zero: xs
+//     succ: case xs {
+//       nil:  List.nil<A>
+//       cons: drop<A>(n.pred, xs.tail)
+//     }
+//   }
+
+// // Creates a new list with the N first elements of the previous list
+// // List.take<Nat>(3, [1,2,3,4,5]) -> [1,2,3]
+// take<A: Type>(n: Nat, xs: List<A>): List<A>
+//   case n{
+//     zero: List.nil<A>
+//     succ: case xs {
+//       nil:  List.nil<A>
+//       cons: List.cons<A>(xs.head, take<A>(n.pred, xs.tail))
+//     }
+//   }
+
+// // Applies a function to all elements of a list
+// map<A: Type, B: Type>(fn: A -> B, xs: List<A>): List<B>
+//   case xs {
+//     nil: List.nil<B>
+//     cons: List.cons<B>(fn(xs.head), map<A,B>(fn, xs.tail))
+//   }
+
+// // Returns the same list, with the order reversed
+// reverse<A: Type>(xs: List<A>): List<A>
+//   reverse.go<A>(List.nil<A>, xs)
+
+// reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
+//   case old_list{
+//     nil: new_list
+//     cons:reverse.go!(List.cons<A>(old_list.head, new_list), old_list.tail)
+//   }
+// add(a: Nat, b: Nat): Nat
+//   case a { 
+//     zero: b
+//     succ: case b {
+//       zero: a
+//       succ: Nat.succ(Nat.succ(add(b.pred, a.pred)))
+//     }
+//   }
+// mul(a: Nat, b: Nat): Nat
+//   case a { 
+//     zero: Nat.zero
+//     succ: case b {
+//       zero: Nat.zero
+//       succ: add(b,(mul(a.pred, b)))
+//     }
+//   }
+
+// ex_08: IO<Unit>
+//   IO {
+//     Tests._08.head(head)
+//     Tests._08.tail(tail)
+//     Tests._08.length(length)
+//     Tests._08.last(last)
+//     Tests._08.init(init)
+//     Tests._08.concat(concat)
+//     Tests._08.drop(drop)
+//     Tests._08.take(take)
+//     Tests._08.map(map)
+//     Tests._08.reverse(reverse)
+//   }

@@ -1,0 +1,71 @@
+
+Bool : Type
+Bool.true : Bool
+Bool.false : Bool
+
+Bool.eql (a: Bool) (b: Bool) : Bool
+Bool.eql Bool.true Bool.true = Bool.true
+Bool.eql Bool.true Bool.false = Bool.false
+Bool.eql Bool.false Bool.true = Bool.false
+Bool.eql Bool.false Bool.false = Bool.true
+
+Bool.not (a: Bool) : Bool
+Bool.not Bool.true  = Bool.false
+Bool.not Bool.false = Bool.true
+
+Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
+Bool.if r Bool.true  if_t if_f = if_t
+Bool.if r Bool.false if_t if_f = if_f
+
+// type PairBool
+// Contains 2 Booleans inside it
+PairBool: Type
+PairBool.new (fst: Bool) (snd: Bool): PairBool 
+
+// Returns the first element of a pair
+PairBool.fst (a: PairBool): Bool
+PairBool.fst (PairBool.new a b) = a 
+
+// Returns the second element of a pair
+PairBool.snd (a: PairBool): Bool
+PairBool.snd (PairBool.new a b) = b 
+
+// Returns true if both elements of a PairBool are identical
+PairBool.eql_elements (a: PairBool): Bool
+PairBool.eql_elements (PairBool.new Bool.true Bool.true) = Bool.true
+PairBool.eql_elements (PairBool.new Bool.true Bool.false) = Bool.false
+PairBool.eql_elements (PairBool.new Bool.false Bool.true) = Bool.false
+PairBool.eql_elements (PairBool.new Bool.false Bool.false) = Bool.true
+
+// Returns true if both Pairs are equal 
+// eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
+// eql(PairBool.new(true, false), PairBool.new(true, false)) -> true
+PairBool.eql (a: PairBool) (b:PairBool): Bool
+PairBool.eql (PairBool.new a b) (PairBool.new x y) = (Bool.if (Bool.eql (Bool.eql a x) (Bool.eql b y)) Bool.true Bool.false)
+
+// Returns true if both Pairs are different
+// not_eql(PairBool.new(false, false), PairBool.new(true, true)) -> true 
+// not_eql(PairBool.new(true, false), PairBool.new(true, false)) -> false
+PairBool.not_eql (a: PairBool) (b:PairBool): Bool
+PairBool.not_eql (PairBool.new a b) (PairBool.new x y) = (Bool.if (Bool.eql (Bool.eql a x) (Bool.eql b y)) Bool.false Bool.true)
+
+// Creates a PairBool from 2 Booleans
+PairBool.create (a: Bool) (b: Bool): PairBool
+PairBool.create a b = (PairBool.new a b)
+
+// Inverts the values of a PairBool
+// neg(PairBool.new(false, false)) -> PairBool.new(true, true)
+// neg(PairBool.new(false, true)) -> PairBool.new(true, false)
+PairBool.neg (a: PairBool): PairBool
+PairBool.neg (PairBool.new a b ) = (PairBool.new (Bool.not a) (Bool.not b))
+
+// Inverts the 2 elements of a PairBool
+PairBool.swap (a: PairBool): PairBool
+PairBool.swap (PairBool.new a b) = (PairBool.new b a)
+
+Main {
+  let a = (PairBool.new Bool.true Bool.false)
+  let b = (PairBool.new Bool.true Bool.true)
+  let c = Bool.false
+  (PairBool.swap a)
+}
