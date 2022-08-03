@@ -65,10 +65,8 @@ Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
 Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
-// Bool.not_not_theorem (a: Bool) : (Equal Bool a (Bool.not (Bool.not a)))
-// Bool.not_not_theorem Bool.true  = (Equal.refl Bool Bool.true)
-// Bool.not_not_theorem Bool.false = (Equal.refl Bool Bool.false)
-
-// Bool.true_not_false (e: (Equal Bool Bool.true Bool.false)) : Empty
-// Bool.true_not_false e = (Equal.rewrite e @x (Bool.if Type x Unit Empty) Unit.new)
-
+Main {
+  let a = Bool.true
+  let b = Bool.false 
+  (Bool.and  Bool.true Bool.false)
+}

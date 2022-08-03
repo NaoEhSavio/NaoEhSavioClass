@@ -1,7 +1,7 @@
 {
     "files.associations": {
         "*.kind": "kind",
-        "*.kind2": "clojure",
+        "*.kind2": "kind",
         "*.hvm": "hvm"
     },
     "workbench.iconTheme": "material-icon-theme",
