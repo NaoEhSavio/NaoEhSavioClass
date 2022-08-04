@@ -1,6 +1,5 @@
 // Bool
 // ----
-
 Bool : Type
 Bool.true : Bool
 Bool.false : Bool

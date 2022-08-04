@@ -111,10 +111,14 @@ Example.bool : (List(List Bool)) {
   }
 }
 
+Pair (a: Type) (b: Type) : Type
+Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
 
 Main {
-  Example.U60
-  // Example.bool
+  let a = Example.U60
+  let b = Example.bool
+  let c = (Pair.new a b) 
+  c
 }
 
 
