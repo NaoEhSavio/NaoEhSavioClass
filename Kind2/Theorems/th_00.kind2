@@ -1,0 +1,63 @@
+//MinhaProva : (Equal Nat Nat.zero (Nat.succ Nat.zero))
+//MinhaProva = ?
+
+
+//Not (b: Bool) : Bool 
+//Not Bool.true  = Bool.false
+//Not Bool.false = Bool.true
+
+//Prova.0 : (Equal Bool (Not Bool.true) Bool.false)
+//Prova.0 = Equal.refl
+
+//Prova.1 : (Equal Bool (Not (Not Bool.true)) Bool.false)
+//Prova.1 = Equal.refl
+
+//Prova.2 (b: Bool) : (Equal Bool (Not (Not b)) b)
+//Prova.2 Bool.true  = Equal.refl
+//Prova.2 Bool.false = Equal.refl
+
+//Prova.3 (b: Bool) : (Equal Bool (Not b) b)
+//Prova.3 Bool.true  = ?
+//Prova.3 Bool.false = ?
+
+//Prova.4 (a: Bool) (b: Bool) : (Equal Bool (Not (And a b)) (Or (Not a) (Not b)))
+
+//Id (n: Nat) : Nat
+//Id Nat.zero     = Nat.zero
+//Id (Nat.succ x) = Nat.succ (Id x)
+
+//Prova.5 (n: Nat) : (Equal Nat (Id n) n)
+//Prova.5 Nat.zero          = Equal.refl
+//Prova.5 (Nat.succ n.pred) = Equal.apply (x => Nat.succ x) (Prova.5 n.pred)
+
+//Nat.add (a: Nat) (b: Nat) : Nat
+//Nat.add Nat.zero     b = b
+//Nat.add (Nat.succ a) b = Nat.succ (Nat.add a b)
+
+// 0 + n == n
+//Prova.6 (n: Nat) : (Equal Nat (Nat.add Nat.zero n) n)
+//Prova.6 n = Equal.refl
+
+// n + 0 == n
+//Prova.7 (n: Nat) : (Equal Nat (Nat.add n Nat.zero) n)
+//Prova.7 Nat.zero          = Equal.refl
+//Prova.7 (Nat.succ n.pred) = Equal.apply (x => Nat.succ x) (Prova.7 n.pred)
+
+Prova.8 : (Not (Equal Bool Bool.true Bool.false))
+Prova.8 = true_is_false => Equal.rewrite true_is_false (x => if x { String } else { Empty }) "ola mundo"
+
+
+
+Foo (n: Nat) : (List Bool)
+Foo Nat.zero          = List.nil
+Foo (Nat.succ n.pred) = List.cons Nat.zero (Foo n.pred)
+
+Oof (xs: (List Bool)) : Nat
+Oof ......
+
+Teorema.0 (n: Nat)         : (Equal Nat (Oof (Foo x)) x)
+Teorema.1 (n: (List Bool)) : (Equal Nat (Foo (Oof x)) x)
+
+//Main {
+  //(Not (Not Bool.false))
+//}
