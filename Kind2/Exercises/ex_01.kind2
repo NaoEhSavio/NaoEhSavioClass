@@ -58,20 +58,6 @@ MaybeBool.or  MaybeBool.none    (MaybeBool.some b)  = (MaybeBool.some b)
 MaybeBool.or (MaybeBool.some a) MaybeBool.none      = (MaybeBool.some a)
 MaybeBool.or (MaybeBool.some a) (MaybeBool.some b)  = (MaybeBool.some a)
 
-List (a: Type) : Type
-List.nil <a> : (List a)
-List.cons <a> (x: a) (xs: (List a)) : (List a)
-
-List.pure <t: Type> (x: t) : (List t)
-List.pure t x = (List.cons t x (List.nil t))
-
-// Example.Bool : (List(List Bool)) {
-//   do List{
-//   let A = 
-//     return [s, u, v, x, x2, x3, x4, x5, x6, y, w, z]
-//   }
-// }
-
 Main {
   let a = (MaybeBool.none)
   let b = (MaybeBool.some(Bool.true))

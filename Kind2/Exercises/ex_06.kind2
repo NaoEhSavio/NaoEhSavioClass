@@ -16,8 +16,6 @@ Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
 Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
-// Integer Exercises
-
 // Integers
 Inte : Type
 Inte.neg(num: Neg) : Inte 
@@ -179,8 +177,9 @@ Inte.mul (Inte.pos (Pos.succ a))  (Inte.neg b)            = Inte.add (Inte.mul (
 Inte.mul (Inte.neg a)             (Inte.pos (Pos.succ b)) = Inte.add (Inte.mul (Inte.neg a) (Inte.pos b)) (Inte.neg a)
 Inte.mul (Inte.pos (Pos.succ a))  (Inte.pos b)            = Inte.add (Inte.mul (Inte.pos a) (Inte.pos b)) (Inte.pos b) 
 
-// // Equal
-Inte.eql  (a: Inte) (b: Inte) : Bool // Given two Integers, returns true if both are the same and false otherwise.
+// Equal
+// Given two Integers, returns true if both are the same and false otherwise.
+Inte.eql  (a: Inte) (b: Inte) : Bool 
 Inte.eql  (Inte.pos (Pos.zero))   (Inte.pos (Pos.zero))   = Bool.true
 Inte.eql  (Inte.neg (Neg.one))    (Inte.neg (Neg.one))    = Bool.true
 Inte.eql  (Inte.neg (Neg.pred a)) (Inte.neg (Neg.pred b)) = Inte.eql  (Inte.neg a)  (Inte.neg b)
@@ -215,26 +214,44 @@ Inte.ltn  a                       b                       = Bool.false
 // // min(int(false, 1), int(true,  0)  = -1
 // // min(int(false, 1), int(false, 3)) = -3
 Inte.min(a: Inte) (b: Inte): Inte // if A < B then A else B
+Inte.min a b = (Bool.if (Inte.ltn a b) a b)
 
 // // Maximum
 // // max(int(false, 1), int(true,  0)) = +0
 // // max(int(false, 1), int(false, 3)) = -1
 Inte.max(a: Inte) (b: Inte): Inte // if A > B then A else B
+Inte.max a b = (Bool.if (Inte.gtn a b) a b)
 
 // // Half
 // // Divides an Integer by two
 // // int(false, 4) = -2
 // // int(false, 1) = +0
 // // int(true,  6) = +3
-Inte.hlf(a: Inte): Inte
+Inte.hlf  (a: Inte) : Inte
+Inte.hlf  (Inte.neg (Neg.pred (Neg.one)))     = Inte.neg (Neg.one)
+Inte.hlf  (Inte.neg (Neg.pred (Neg.pred a)))  = Inte.dec(Inte.hlf (Inte.neg a))
+Inte.hlf  (Inte.pos (Pos.succ (Pos.succ a)))  = Inte.inc(Inte.hlf (Inte.pos a))
+Inte.hlf  a                                   = Inte.pos(Pos.zero) 
 
 // // Division
 // // int(true,  2)  / int(true,  2)  = +1
 // // int(false, 8)  / int(true,  4)  = -2
 // // int(false, 11) / int(false, 5)  = +2
 // // int(true,  10) / int(false, 12) = +0
-Inte.div(a: Inte) (b: Inte): Inte 
+Inte.div  (a: Inte) (b: Inte) : Inte 
+Inte.div  a                                 (Inte.pos(Pos.zero))              = Inte.pos(Pos.zero)  
+Inte.div  (Inte.pos(Pos.zero))              (Inte.pos(Pos.zero))              = Inte.pos(Pos.zero)
+Inte.div  (Inte.pos (Pos.succ (Pos.zero)))  (Inte.pos (Pos.succ (Pos.zero)))  = Inte.pos (Pos.succ (Pos.zero))
+Inte.div  a                                 (Inte.pos (Pos.succ (Pos.zero)))  = a
+Inte.div  a                                 (Inte.neg(Neg.one))               = Inte.mul a (Inte.neg(Neg.one)) 
+Inte.div  (Inte.neg(Neg.one))               (Inte.neg(Neg.one))               = Inte.pos (Pos.succ (Pos.zero))
+Inte.div  (Inte.neg(Neg.one)) (Inte.neg b) = Inte.pos(Pos.zero)
+Inte.div  (Inte.neg a) (Inte.neg b) = Inte.inc (Inte.div (Inte.sub (Inte.neg a) (Inte.neg b)) (Inte.neg b))
+Inte.div  (Inte.pos a) (Inte.neg b) = Inte.dec (Inte.div (Inte.add (Inte.pos a) (Inte.neg b)) (Inte.neg b))
+Inte.div  (Inte.pos a) (Inte.pos b) = Inte.inc (Inte.div (Inte.sub (Inte.pos a) (Inte.pos b)) (Inte.pos b))
+Inte.div  (Inte.neg a) (Inte.pos b) = Inte.dec (Inte.div (Inte.add (Inte.neg a) (Inte.pos b)) (Inte.pos b))
 
+Inte.div  a            b            = Inte.pos(Pos.zero)
 
 Main {
   let a = (Inte.neg(Neg.one))
@@ -244,14 +261,5 @@ Main {
   let e = (Inte.pos(Pos.succ(Pos.zero)))
   let f = (Inte.pos(Pos.succ(Pos.succ(Pos.zero))))
   let g = (Inte.pos(Pos.succ(Pos.succ(Pos.succ(Pos.zero)))))
-  (Inte.ltn a a) // b e b f
-  //-1  + -2  = -3 ok
-  // 1  +  0  =  1 ok
-  // 1  +  1  =  2 ok
-  //-1  +  0  = -1 ok
-  //-2  +  1  = -1 ok
-  //-1  +  1  =  0 ok
-  // 1  + -1  =  0 ok
-  // 0  +  0  =  0 ok
-
+  (Inte.div g f)
 }
