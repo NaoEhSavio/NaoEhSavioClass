@@ -39,8 +39,8 @@ Pair.create <a: Type> <b: Type> (x: a) (y: b): (Pair a b)
 Pair.create a b x y = (Pair.new x y)
 
 // Applies a function to both elements of a Pair
-Pair.map <a: Type> <b: Type> (fn: (x: a) b) (pair: (Pair a a)) : (Pair b b)
-Pair.map a b fn (Pair.new pair.a pair.b fst snd) = (Pair.new (fn fst) (fn snd))
+Pair.map <a: Type> <b: Type> (func: (x: a) b) (pair: (Pair a a)) : (Pair b b)
+Pair.map a b func (Pair.new pair.a pair.b fst snd) = (Pair.new (func fst) (func snd))
 
 Main {
   let a = (Pair.new Bool.true Bool.false)
