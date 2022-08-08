@@ -1,16 +1,22 @@
-// // Basic exercises involving Lists
+// Basic exercises involving Lists
 
 // type List <A: Type> {
 //   nil
 //   cons(head: A, tail: List<A>)
 // }
+List (a: Type) : Type
+List.nil <a> : (List a)
+List.cons <a> (head: a) (tail: List a) : (List a)
+
+
+Maybe (a: Type) : Type
+Maybe.none <a> : (Maybe a)
+Maybe.some <a> (value: a) : (Maybe a)
 
 // // Returns the head of the List
-// head<A: Type>(xs: List<A>): Maybe<A>
-//   case xs {
-//     nil: none
-//     cons: some(xs.head)
-//     }
+List.head (a: Type) (xs: (List a)): (Maybe a)
+List.head a (List.nil xs) = Maybe.none
+List.head a (List.cons xs head tail) = Maybe.some head
 
 // // Returns the list without the first element
 // tail<A: Type>(xs: List<A>): List<A>
@@ -112,16 +118,3 @@
 //     }
 //   }
 
-// ex_08: IO<Unit>
-//   IO {
-//     Tests._08.head(head)
-//     Tests._08.tail(tail)
-//     Tests._08.length(length)
-//     Tests._08.last(last)
-//     Tests._08.init(init)
-//     Tests._08.concat(concat)
-//     Tests._08.drop(drop)
-//     Tests._08.take(take)
-//     Tests._08.map(map)
-//     Tests._08.reverse(reverse)
-//   }
