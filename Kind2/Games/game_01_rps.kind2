@@ -1,0 +1,146 @@
+String : Type
+String.nil : (String)
+String.cons (head: U60) (tail: String) : (String)
+
+Nat : Type
+Nat.zero : Nat
+Nat.succ (pred: Nat) : Nat
+
+Bool : Type
+Bool.true : Bool
+Bool.false : Bool
+
+Bool.and (a: Bool) (b: Bool) : Bool
+Bool.and Bool.true  Bool.true  = Bool.true
+Bool.and a b  = Bool.false
+
+Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
+Bool.if r Bool.true  if_t if_f = if_t
+Bool.if r Bool.false if_t if_f = if_f
+
+IO (a: Type) : Type
+IO.done <a: Type> (val: a) : (IO a)
+IO.do_input <a: Type> (cont: (_: (String)) (IO a)) : (IO a)
+IO.do_output <a: Type> (text: (String)) (cont: (_: U60) (IO a)) : (IO a)
+
+IO.bind <a: Type> <b: Type> (io: IO a) (cont: a -> IO b) : IO b
+IO.bind a b (IO.done   t val)          next = next val
+IO.bind a b (IO.do_input  t cont)      next = IO.do_input  b      (x => IO.bind a b (cont x) next)
+IO.bind a b (IO.do_output t text cont) next = IO.do_output b text (x => IO.bind a b (cont x) next)
+
+IO.input : IO String
+IO.input = IO.do_input String (x => IO.done x)
+
+IO.output (text: (String)) : (IO U60)
+IO.output text = IO.do_output U60 text (x => IO.done x)
+
+IO.prompt (question: String) : IO String {
+  do IO {
+    ask (IO.output question)
+    ask answer = IO.input
+    return answer
+  }
+}
+
+
+IO.pure <a: Type> (val: a) : (IO a)
+IO.pure a val = IO.done a val
+
+Unit  : Type
+Unit.new  : Unit
+
+U60.to_bool (n: U60) : Bool
+U60.to_bool 0 = Bool.false
+U60.to_bool n = Bool.true
+
+String.equal (xs: String) (ys: String) : Bool
+String.equal (String.cons x xs) (String.cons y ys) =
+  let head = U60.to_bool (== x y)
+  let tail = String.equal xs ys
+  Bool.and head tail
+String.equal String.nil String.nil =
+  Bool.true
+String.equal xs ys =
+  Bool.false
+
+String.flatten (xs: List String) : String
+String.flatten (List.nil t)            = String.nil
+String.flatten (List.cons t head tail) = String.concat head (String.flatten tail)
+
+List <a: Type> : Type
+List.nil <a> : (List a)
+List.cons <a> (head: a) (tail: List a) : (List a)
+
+String.concat (xs: String) (ys: String) : String
+String.concat (String.cons x xs) ys = String.cons x (String.concat xs ys)
+String.concat String.nil         ys = ys
+
+// Play options
+Object : Type
+Rock     : Object
+Paper    : Object
+Scissors : Object
+
+// // Converts a text to an Object. If not possible, returns rock
+Object.read (code: String): Object
+Object.read code = 
+(Bool.if (String.equal "paper" code) Paper 
+  (Bool.if (String.equal "scissors" code) Scissors Rock )) 
+
+
+
+
+// // Converts a number to an Object. If not possible, returns rock
+Object.from_nat (n: Nat)  : Object
+Object.from_nat Nat.zero              = Paper
+Object.from_nat (Nat.succ(Nat.zero))  = Scissors
+Object.from_nat n                     = Rock
+
+
+// // Checks if Object a beats Object b
+// // Draw = false
+Object.wins (a: Object) (b: Object) : U60
+Object.wins Rock      Scissors  = 1
+Object.wins Scissors  Paper     = 1
+Object.wins Paper     Rock      = 1
+Object.wins Rock      Rock      = 2
+Object.wins Paper     Paper     = 2
+Object.wins Scissors  Scissors  = 2
+Object.wins a         b         = 3
+
+// // If wins return "You won", else "You lost"
+
+
+Object.match_result (win: U60) : String
+Object.match_result 1 = "You win"
+Object.match_result 2 = "You draw"
+Object.match_result 3 = "You lost"
+
+
+Main : IO Unit {
+  do IO {
+    ask answer = (IO.prompt "Pick one: rock, paper or scissors :" )
+
+    // Asks for user input and saves it in variable line
+    let user_input = (String.flatten [answer])
+      
+    // Converts the user_input (String) to the Object type
+    let user_object = Object.read user_input
+
+    // // Returns a random number below 3
+    // // 0, 1 or 2
+    let random_num = (Nat.succ(Nat.zero))
+
+    // // Converts random_num (Nat) to the Object type
+    let cpu_object = Object.from_nat (random_num)
+
+    // // Compares user_object and cpu_object and returns true if user wins
+    let user_won = Object.wins user_object  cpu_object
+
+    // // Final message to be said: "You won" or "You lost"
+    let final_message = Object.match_result user_won
+
+    ask (IO.output (final_message))
+    return Unit.new
+  }
+}
