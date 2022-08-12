@@ -48,5 +48,5 @@ Bool.if r Bool.false if_t if_f = if_f
 Main {
   let a = Bool.true
   let b = Bool.false 
-  (Bool.and  Bool.true Bool.false)
+  (Bool.eql  Bool.true Bool.false)
 }

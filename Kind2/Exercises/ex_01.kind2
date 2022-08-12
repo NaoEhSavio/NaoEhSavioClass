@@ -4,16 +4,6 @@ Bool : Type
 Bool.true : Bool
 Bool.false : Bool
 
-Bool.eql (a: Bool) (b: Bool) : Bool
-Bool.eql Bool.true Bool.true = Bool.true
-Bool.eql Bool.true Bool.false = Bool.false
-Bool.eql Bool.false Bool.true = Bool.false
-Bool.eql Bool.false Bool.false = Bool.true
-
-Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
-Bool.if r Bool.true  if_t if_f = if_t
-Bool.if r Bool.false if_t if_f = if_f
-
 MaybeBool : Type
 MaybeBool.none : MaybeBool
 MaybeBool.some (value: Bool) : MaybeBool
@@ -34,10 +24,11 @@ Is_some (MaybeBool.some a) = Bool.true
 // eql(MaybeBool.some(Bool.true),  MaybeBool.some(Bool.false)) -> false
 // eql(MaybeBool.some(Bool.false), MaybeBool.some(Bool.false)) -> true
 MaybeBool.eql (a: MaybeBool) (b:MaybeBool) : Bool
-MaybeBool.eql MaybeBool.none MaybeBool.none = Bool.true
-MaybeBool.eql (MaybeBool.some a) MaybeBool.none = Bool.false
-MaybeBool.eql MaybeBool.none (MaybeBool.some b)= Bool.false
-MaybeBool.eql (MaybeBool.some a) (MaybeBool.some b) = (Bool.if (Bool.eql a b) Bool.true Bool.false)
+MaybeBool.eql MaybeBool.none              MaybeBool.none              = Bool.true
+MaybeBool.eql (MaybeBool.some Bool.true)  (MaybeBool.some Bool.true)  = Bool.true 
+MaybeBool.eql (MaybeBool.some Bool.false) (MaybeBool.some Bool.false) = Bool.true 
+MaybeBool.eql a                           b                           = Bool.false
+// MaybeBool.eql (MaybeBool.some a) (MaybeBool.some b) = (Bool.if (Bool.eql a b) Bool.true Bool.false)
                                                     //if (Bool.eql a b) {Bool.true} else {Bool.false}
 // Returns the value inside the MaybeBool.
 // If there is no value contained, returns v instead
@@ -61,7 +52,9 @@ MaybeBool.or (MaybeBool.some a) (MaybeBool.some b)  = (MaybeBool.some a)
 Main {
   let a = (MaybeBool.none)
   let b = (MaybeBool.some(Bool.true))
-  let c = Bool.false
+  let c = (MaybeBool.some(Bool.false))
+  let d = Bool.true
+  let e = Bool.false
   // (MaybeBool.extract a c)
-  (MaybeBool.create c)
+  (MaybeBool.eql c c)
 }
