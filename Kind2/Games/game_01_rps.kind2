@@ -109,25 +109,20 @@ Object.wins Scissors  Scissors  = 2
 Object.wins a         b         = 3
 
 // // If wins return "You won", else "You lost"
-
-
 Object.match_result (win: U60) : String
 Object.match_result 1 = "You win"
 Object.match_result 2 = "You draw"
 Object.match_result 3 = "You lost"
 
-
 Main : IO Unit {
   do IO {
-    ask answer = (IO.prompt "Pick one: rock, paper or scissors :" )
-
+    ask answer = (IO.prompt "Pick one: rock, paper or scissors : " )
     // Asks for user input and saves it in variable line
     let user_input = (String.flatten [answer])
-      
     // Converts the user_input (String) to the Object type
+    
     let user_object = Object.read user_input
-
-    // // Returns a random number below 3
+        // // Returns a random number below 3
     // // 0, 1 or 2
     let random_num = (Nat.succ(Nat.zero))
 
@@ -139,8 +134,9 @@ Main : IO Unit {
 
     // // Final message to be said: "You won" or "You lost"
     let final_message = Object.match_result user_won
-
+    
     ask (IO.output (final_message))
+
     return Unit.new
   }
 }

@@ -47,5 +47,5 @@ Main {
   let b = (Pair.new Bool.false Bool.true)
   let c = Bool.false
   // (Pair.create c c)
-  (Pair.map @x(Bool.eql Bool.true x) a)
+  (Pair.second a)
 }

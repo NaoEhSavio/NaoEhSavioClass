@@ -18,8 +18,8 @@ Nat.sub a Nat.zero = a
 Nat.sub (Nat.succ a) (Nat.succ b) = (Nat.sub a b) // GZSR ajudou!!!
 
 Nat.mul (a: Nat) (b: Nat) : Nat
+Nat.mul Nat.zero     b = (Nat.zero)                // 0 b = 0
 Nat.mul (Nat.succ a) b = (Nat.add (Nat.mul a b) b) // (a + 1) * b = a*b + b
-Nat.mul Nat.zero     b = (Nat.zero)                // 0b = 0
 
 Nat.fac (a: Nat) : Nat
 Nat.fac Nat.zero    = (Nat.succ (Nat.zero))
@@ -70,12 +70,12 @@ Nat.div (a: Nat) (b: Nat) : Nat
 Nat.div Nat.zero      Nat.zero = Nat.zero
 Nat.div a             Nat.zero = Nat.zero
 Nat.div Nat.zero      b        = Nat.zero
-Nat.div a             b        = if (Nat.ltn a b) { Nat.zero } else { (Nat.succ( Nat.div( Nat.sub a b) b)) }
+Nat.div a             b        = Bool.if (Nat.ltn a b) (Nat.zero) (Nat.succ( Nat.div( Nat.sub a b) b))
 // Nat.div (Nat.succ a)  (Nat.succ b)  = (Nat.succ( Nat.div( Nat.sub a b) b))
 
 Nat.to_u60 (n: Nat) : U60
-Nat.to_u60 Nat.zero     = #0
-Nat.to_u60 (Nat.succ n) = (+ #1 (Nat.to_u60 n))
+Nat.to_u60 Nat.zero     = 0
+Nat.to_u60 (Nat.succ n) = (+ 1 (Nat.to_u60 n))
   
 List (a: Type) : Type
 List.nil <a> : (List a)

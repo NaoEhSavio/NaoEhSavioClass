@@ -119,3 +119,6 @@ List.length a (List.cons xs head tail) = Nat.succ(  List.length tail)
 //     }
 //   }
 
+Main {
+
+}
