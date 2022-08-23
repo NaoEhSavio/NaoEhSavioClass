@@ -67,17 +67,17 @@ List.map a b func (List.cons xs head tail) = List.cons (func(head)) (List.map fu
 
 // // Returns the same list, with the order reversed
 List.reverse <a: Type> (xs: List a) : (List a)
-//   reverse.go<A>(List.nil<A>, xs)
+List.reverse a xs = List.reverse.go (List.nil a) xs
 
-// reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
-//   case old_list{
-//     nil: new_list
-//     cons:reverse.go!(List.cons<A>(old_list.head, new_list), old_list.tail)
-//   }
-Nat.inc(a: Nat): Nat  
-Nat.inc a = (Nat.succ a)
+List.reverse.go <a: Type> (new_list: List a) (old_list: List a) : (List a)
+List.reverse.go a new_list (List.nil old_list) = new_list
+List.reverse.go a new_list (List.cons old_list head tail) = List.reverse.go (List.cons head new_list) tail
+
+// Nat.inc(a: Nat): Nat  
+// Nat.inc a = (Nat.succ a)
 
 Main {
     let a = [(Nat.succ(Nat.zero)), (Nat.succ(Nat.succ(Nat.zero))), (Nat.succ(Nat.succ(Nat.succ(Nat.zero))))]
-    List.map (x => (Nat.inc x)) a 
+    // List.map (x => (Nat.inc x)) a 
+    List.reverse a
 }

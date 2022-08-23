@@ -31,7 +31,7 @@ TicTacToe.new (turn: U60) (board: List (List (Maybe TicTacToe.Piece))) : TicTacT
 // The initial board state
 // An empty board
 TicTacToe.init : TicTacToe
-  TicTacToe.new 0 [[Maybe.none,Maybe.none,Maybe.none],[Maybe.none,Maybe.none,Maybe.none],[Maybe.none,Maybe.none,Maybe.none]]
+TicTacToe.init = TicTacToe.new 0 [[Maybe.none,Maybe.none,Maybe.none],[Maybe.none,Maybe.none,Maybe.none],[Maybe.none,Maybe.none,Maybe.none]]
 
 // Gets the state of a given position in the board
 // x = Position in the row
@@ -152,5 +152,5 @@ Main {
   let a =  TicTacToe.new 0 [[Maybe.none,Maybe.none,Maybe.none],
                             [Maybe.none,Maybe.none,Maybe.none],
                             [Maybe.none,Maybe.none,Maybe.none]]
-  a
+  TicTacToe.init
 }
