@@ -1,0 +1,97 @@
+ // ::::::::::::::
+// :: Theorems ::
+// ::::::::::::::
+
+// Note: these problems use functions from the base libs, NOT the ones above
+
+Problems.t0 : (Equal Bool Bool.true Bool.true)
+
+Problems.t1 (a: Bool) : (Equal Bool (Bool.and Bool.false a) Bool.false)
+
+
+Problems.t2 (a: Bool) : (Equal Bool (Bool.and a Bool.false) Bool.false)
+
+
+Problems.t3 (a: Bool) : (Equal Bool (Bool.or Bool.true a) Bool.true)
+
+
+Problems.t4 (a: Bool) : (Equal Bool (Bool.or a Bool.true) Bool.true)
+
+
+Problems.t5 (a: Bool) : (Equal Bool (Bool.equal a a) Bool.true)
+
+
+Problems.t6 (a: Bool) : (Equal Bool (Bool.not (Bool.not a)) a)
+
+
+Problems.t7 (a: Bool) (b: Bool) : (Equal Bool (Bool.not(Bool.and a b)) (Bool.or(Bool.not a) (Bool.not b)))
+
+
+Problems.t8 (a: Bool) (b: Bool) : (Equal Bool (Bool.not(Bool.or a b)) (Bool.and(Bool.not a) (Bool.not b)))
+
+
+Problems.t9 (a: Pair Nat Nat) : (Equal (Pair Nat Nat) (Pair.new Nat Nat (Pair.fst Nat Nat a) (Pair.snd Nat Nat a)) a)
+
+//Problems.t10 (a: Pair Nat Nat) : (Equal (Pair Nat Nat) (Pair.swap Nat Nat(Pair.swap Nat Nat ) a))
+//criar Pair.swap
+
+Problems.t11 (n: Nat) : (Equal Nat (Nat.same n) n)
+
+
+Problems.t12 (n: Nat) : (Equal Nat (Nat.half(Nat.double n)) n)
+
+
+Problems.t13 (n: Nat) : (Equal Nat (Nat.add Nat.zero n)  n)
+
+Problems.t14 (n: Nat) : (Equal (Nat.add n Nat.zero) n)
+
+Problems.t15 (n: Nat) (m: Nat) : (Equal Nat (Nat.add(Nat.succ n) m) (Nat.succ(Nat.add n m)))
+  
+Problems.t16 (n: Nat) (m: Nat) : (Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ(Nat.add n m)))
+
+Problems.t17 (n: Nat) (m: Nat) : (Equal Nat (Nat.add n  m) (Nat.add m n))
+
+Problems.t18 (n: Nat) : (Equal Nat (Nat.add n n) (Nat.double n))
+
+//Problems.t19 (n: Nat) : (Equal Bool (Nat.ltn n (Nat.succ n)) Bool.true)
+//criar Nat.ltn
+
+//Problems.t20 (n: Nat) : (Equal Bool (Nat.gtn(Nat.succ n) n) Bool.true)
+//criar Nat.gnt
+
+
+//Problems.t21 (n: Nat) : (Equal Nat (Nat.sub n n)  0)
+//criar Nat.sub
+
+
+Problems.t22 (n: Nat) (e: Equal n (Nat.succ(Nat.zero)))  : (Equal Nat (Nat.succ n) (Nat.succ(Nat.succ(Nat.zero))))
+
+Problems.t23 (n: Nat) (m: Nat) (e: Equal (Nat.equal n m) Bool.true): (Equal n m)
+
+
+//Problems.t24 (xs: List Nat) : (Equal Bool (Nat.gtn(List.length Nat (List.cons Nat (Nat.succ Nat.zero) xs)) Nat.zero) Bool.true)
+//criar Nat.gtn
+
+Problems.t25 (xs: List Nat) : (Equal (List Nat)   (List.map Nat Nat xs (x => x))  xs)
+
+Problems.t26 (xs: List Nat) (ys: List Nat): (Equal Nat (Nat.add(List.length Nat (xs)) (List.length Nat(ys))) (List.length Nat (List.concat Nat (xs) (ys))))
+
+Problems.t27 (xs: List Nat) : (Equal (List Nat) (List.reverse Nat (List.reverse Nat (xs))) xs)
+
+Problems.t28:  Not(Equal Bool Bool.true Bool.false)
+
+Problems.t29:  Not(Equal Nat (Nat.succ(Nat.succ(Nat.zero))) (Nat.succ(Nat.zero)))
+
+Problems.t30 (a: Bool) : Not(Equal Bool (Bool.or(Bool.true) (a)) Bool.false)
+
+Problems.t31 (a: Bool) : Not(Equal Bool (Bool.or(a) (Bool.true)) Bool.false)
+
+Problems.t32 (a: Bool) : Not(Equal Bool (Bool.and(Bool.false) (a))  Bool.true)
+
+Problems.t33 (a: Bool) : Not(Equal Bool (Bool.and(a) (Bool.false)) Bool.true)
+
+Problems.t34 (a: Nat) (b: Nat)  (e:Equal a b):  Equal Nat (b) (a)
+
+Problems.t35 (a: Nat) (b: Nat) (c: Nat) (e0: Equal a b) (e1: Equal b c): Equal Nat (a) (c) 
+
+Problems.t36 (a: Nat) (f: Nat -> Type) (p: (f a)) : f (Nat.same a)

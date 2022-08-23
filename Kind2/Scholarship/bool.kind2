@@ -1,0 +1,28 @@
+
+Problems.t0 : (Equal Bool Bool.true Bool.true)
+
+Problems.t1 (a: Bool) : (Equal Bool (Bool.and Bool.false a) Bool.false)
+
+Problems.t2 (a: Bool) : (Equal Bool (Bool.and a Bool.false) Bool.false)
+
+Problems.t3 (a: Bool) : (Equal Bool (Bool.or Bool.true a) Bool.true)
+
+Problems.t4 (a: Bool) : (Equal Bool (Bool.or a Bool.true) Bool.true)
+
+Problems.t5 (a: Bool) : (Equal Bool (Bool.or Bool.false a) a)
+
+Problems.t6 (a: Bool) : (Equal Bool (Bool.or a Bool.false) a)
+
+Problems.t7 (a: Bool) : (Equal Bool (Bool.equal a a) Bool.true)
+
+Problems.t8 : (Equal Bool (Bool.not Bool.true) Bool.false) 
+
+Problems.t9 : (Equal Bool (Bool.not (Bool.not Bool.true)) Bool.true)
+
+Problems.t10 (a: Bool) : (Equal Bool (Bool.not (Bool.not a)) a)
+
+Problems.t11 (a: Bool) (b: Bool) : (Equal Bool (Bool.not(Bool.and a b)) (Bool.or(Bool.not a) (Bool.not b)))
+
+Problems.t12 (a: Bool) (b: Bool) : (Equal Bool (Bool.not(Bool.or a b)) (Bool.and(Bool.not a) (Bool.not b)))
+
+Problems.t13 (a: Bool) (b: Bool) : (Equal Bool (Not (And a b)) (Or (Not a) (Not b)))

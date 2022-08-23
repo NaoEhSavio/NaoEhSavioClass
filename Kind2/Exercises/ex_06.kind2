@@ -28,7 +28,7 @@ Neg.pred(succ: Neg) : Neg
 //   case n { 
 //     one:  Neg.one
 //     pred: n.succ
-//   }
+//   } 
 
 // Functions for negative numbers to help testing 
 // Do not edit those functions
