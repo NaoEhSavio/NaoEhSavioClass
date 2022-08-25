@@ -18,7 +18,7 @@ Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
 // Basic Exercises involving Pairs
-Pair (a: Type) (b: Type) : Type
+Pair <a: Type> <b: Type> : Type
 Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
 
 // Example:
