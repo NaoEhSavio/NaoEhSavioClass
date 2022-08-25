@@ -22,11 +22,21 @@ Bool.if <a: Type> (b: Bool) (t: a) (f: a) : a
 Bool.if a Bool.true  t f = t
 Bool.if a Bool.false t f = f
 
+Bool.match (x: (Bool)) -(p: (x: (Bool)) Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
+Bool.match (Bool.true) p true false = (true)
+Bool.match (Bool.false) p true false = (false)
+
 Nat.ltn (a: Nat) (b: Nat): Bool
 Nat.ltn Nat.zero Nat.zero = Bool.false
 Nat.ltn a        Nat.zero = Bool.false
 Nat.ltn Nat.zero b        = Bool.true
 Nat.ltn (Nat.succ a) (Nat.succ b) = (Nat.ltn a b)
+
+Nat.eql (a: Nat) (b: Nat): Bool
+Nat.eql Nat.zero Nat.zero = Bool.true
+Nat.eql a        Nat.zero = Bool.false
+Nat.eql Nat.zero b        = Bool.false
+Nat.eql (Nat.succ a) (Nat.succ b) = (Nat.eql a b)
 
 Nat.min (a: Nat) (b: Nat): Nat
 Nat.min a b = if (Nat.ltn a b) { a } else { b }
@@ -45,8 +55,6 @@ List.smallest (List.nil xs) = Maybe.none
 List.smallest (List.cons xs head (List.nil Nat)) = Maybe.some head
 List.smallest (List.cons xs head (List.cons tail.xs tail.head tail.tail)) = List.smallest( List.cons (Nat.min head tail.head) tail.tail)
 
-
-
 // Returns the value inside the Maybe.
 // If there is no value contained, returns v instead
 Maybe.extract <a: Type> (m: Maybe a) (v: a) : a
@@ -55,11 +63,13 @@ Maybe.extract a (Maybe.some m value) v = value
 
 // // Returns the same list without the smallest element
 List.delete_smallest (xs: (List Nat)) : (List Nat)
-List.delete_smallest (List.nil xs) = (List.nil Nat)
-List.delete_smallest (List.cons xs head (List.nil Nat)) = (List.nil Nat)
-List.delete_smallest (List.cons xs head (List.cons tail.xs tail.head tail.tail)) = 
-    List.cons tail.head (List.delete_smallest( List.cons (Nat.min head tail.head) tail.tail))
-// List.delete_smallest (List.cons xs head tail) =  if (Nat.ltn head (Maybe.extract (List.smallest xs) (Nat.zero))) {tail} else {List.cons head (List.delete_smallest tail)}
+List.delete_smallest xs = List.delete_smallest.go (xs) (xs)
+
+List.delete_smallest.go (xs: (List Nat)) (ys: (List Nat)): (List Nat)
+List.delete_smallest.go (List.nil Nat) ys = (List.nil Nat)
+List.delete_smallest.go (List.cons xs head tail) ys = 
+    if (Nat.eql head (Maybe.extract (List.smallest ys) (Nat.zero))) {tail}
+        else {List.cons head (List.delete_smallest tail)}
 
 // // Returns the same list, in ascending order
 List.sort_ascending (xs: (List Nat)): (List Nat)
@@ -71,32 +81,26 @@ List.sort_ascending xs = List.cons ((Maybe.extract (List.smallest xs) (Nat.zero)
 // //   returns Maybe.some!(element)
 // // else
 // //   returns Maybe.none!
-// get<A: Type>(idx: Nat, xs: List<A>): Maybe<A>
-//   case xs{
-//     nil: Maybe.none<A>
-//     cons: case idx {
-//       zero: Maybe.some<A>(xs.head) 
-//       succ: get<A>(idx.pred, xs.tail)
-//     }
-//   }
+List.get <a: Type> (idx: Nat) (xs: (List a)): (Maybe a)
+List.get a idx (List.nil xs) = Maybe.none 
+List.get a (Nat.zero) (List.cons xs head tail) = Maybe.some head 
+List.get a (Nat.succ idx) (List.cons xs head tail) = List.get idx tail
 
 // // Removes all elements that does not match a condition
 // // List.filter<Nat>(Nat.odd, [1, 2, 3, 4, 5]) = [1, 3, 5]
-// filter<A: Type>(f: A -> Bool, xs: List<A>): List<A>
-//   case xs {
-//     nil: List.nil<A>
-//     cons: case f(xs.head){
-//       true:List.cons<A>(xs.head, filter<A>(f, xs.tail))
-//       false: filter<A>(f, xs.tail)
-//     }
-//   }
+List.filter <a: Type> (func: a -> Bool) (xs: (List a)) : (List a)
+List.filter a func (List.nil xs) = (List.nil)
+List.filter a func (List.cons xs head tail) = 
+  Bool.match (func head) ( x => _ ) (List.cons head (List.filter func tail)) (List.filter func tail)
+    // if func head {List.cons head (List.filter func tail)}
+    //     else {List.filter func tail}
+
 Main {
-    let a = [(Nat.succ(Nat.succ(Nat.succ(Nat.zero)))),
-             (Nat.succ(Nat.zero)), 
+    let a = [(Nat.succ(Nat.zero)), 
              (Nat.succ(Nat.succ(Nat.zero))), 
              (Nat.succ(Nat.succ(Nat.succ(Nat.zero)))), 
              (Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))),
              (Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))))]
     let b = List.nil
-    List. a
+    List.get Nat.zero a
 }
