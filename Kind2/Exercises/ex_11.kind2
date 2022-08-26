@@ -17,22 +17,6 @@ Bool.match (Bool.false) p true false = (false)
 U60.to_bool (n: U60) : Bool
 U60.to_bool 0 = Bool.false
 U60.to_bool n = Bool.true
-// FIXME: isn't compiling to HVM
-
-
-// Show : Type
-// Show = String -> String
-
-// Show.to_string (show: Show) : String
-// Show.to_string show = show String.nil
-
-// U60.show (n: U60) : Show
-// U60.show n = x =>
-//   let func = U60.if Show (< n 10) (h => h) (h => (U60.show (/ n 10)) h) 
-//   let next = String.cons (+ 48 (% n 10)) x
-//   func next
-U60.show (n: U60) : String
-U60.show n = String.reverse(U60.show.go n)
 
 String.reverse (xs: String) : String 
 String.reverse xs = String.reverse.go String.nil xs
@@ -40,6 +24,9 @@ String.reverse xs = String.reverse.go String.nil xs
 String.reverse.go (new_list: String) (old_list: String) : (String)
 String.reverse.go new_list (String.nil) = new_list
 String.reverse.go new_list (String.cons head tail) = String.reverse.go (String.cons head new_list) tail
+
+U60.show (n: U60) : String
+U60.show n = String.reverse(U60.show.go n)
 
 U60.show.go (n: U60) : String
 U60.show.go 0 = String.cons '0' String.nil
@@ -50,11 +37,14 @@ U60.show.go 4 = String.cons '4' String.nil
 U60.show.go 5 = String.cons '5' String.nil
 U60.show.go 6 = String.cons '6' String.nil
 U60.show.go 7 = String.cons '7' String.nil
-U60.show.go 8 = String.cons '8' String.nil
+U60.show.go 8 = String.cons '8' String.nil  
 U60.show.go 9 = String.cons '9' String.nil  
-U60.show.go n = 
-  if (U60.to_bool(< n 10)) {(U60.show.go n)} else {String.cons (+ 48 (% n 10)) (U60.show.go (/ n 10)) }
-
+U60.show.go n = (x: String) => 
+  if (U60.to_bool(< n 10)) {(U60.show.go n)} 
+    else {String.cons (+ 48 (% n 10)) (U60.show.go (/ n 10)) }
+  // let str = String.concat (+ 48 (% n 10)) x
+  // let up = if (U60.to_bool(< n 10)) {(h: U60)  => h} else {(y: String)=> y (U60.show.go (/ n 10)) }
+  // up str
 
 U60.if <r: Type> (n: U60) (t: r) (f: r) : r
 U60.if r 0 t f = f
