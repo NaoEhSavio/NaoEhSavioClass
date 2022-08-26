@@ -1,0 +1,160 @@
+Bool : Type
+Bool.true : Bool
+Bool.false : Bool
+
+Bool.and (a: Bool) (b: Bool) : Bool
+Bool.and Bool.true  Bool.true  = Bool.true
+Bool.and a b  = Bool.false
+
+Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
+Bool.if r Bool.true  if_t if_f = if_t
+Bool.if r Bool.false if_t if_f = if_f
+
+Bool.match (x: (Bool)) -(p: (x: (Bool)) Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
+Bool.match (Bool.true) p true false = (true)
+Bool.match (Bool.false) p true false = (false)
+
+U60.to_bool (n: U60) : Bool
+U60.to_bool 0 = Bool.false
+U60.to_bool n = Bool.true
+// FIXME: isn't compiling to HVM
+
+
+// Show : Type
+// Show = String -> String
+
+// Show.to_string (show: Show) : String
+// Show.to_string show = show String.nil
+
+// U60.show (n: U60) : Show
+// U60.show n = x =>
+//   let func = U60.if Show (< n 10) (h => h) (h => (U60.show (/ n 10)) h) 
+//   let next = String.cons (+ 48 (% n 10)) x
+//   func next
+U60.show (n: U60) : String
+U60.show n = String.reverse(U60.show.go n)
+
+String.reverse (xs: String) : String 
+String.reverse xs = String.reverse.go String.nil xs
+
+String.reverse.go (new_list: String) (old_list: String) : (String)
+String.reverse.go new_list (String.nil) = new_list
+String.reverse.go new_list (String.cons head tail) = String.reverse.go (String.cons head new_list) tail
+
+U60.show.go (n: U60) : String
+U60.show.go 0 = String.cons '0' String.nil
+U60.show.go 1 = String.cons '1' String.nil
+U60.show.go 2 = String.cons '2' String.nil
+U60.show.go 3 = String.cons '3' String.nil
+U60.show.go 4 = String.cons '4' String.nil
+U60.show.go 5 = String.cons '5' String.nil
+U60.show.go 6 = String.cons '6' String.nil
+U60.show.go 7 = String.cons '7' String.nil
+U60.show.go 8 = String.cons '8' String.nil
+U60.show.go 9 = String.cons '9' String.nil  
+U60.show.go n = 
+  if (U60.to_bool(< n 10)) {(U60.show.go n)} else {String.cons (+ 48 (% n 10)) (U60.show.go (/ n 10)) }
+
+
+U60.if <r: Type> (n: U60) (t: r) (f: r) : r
+U60.if r 0 t f = f
+U60.if r x t f = t
+
+Maybe <a: Type> : Type
+Maybe.none <a> : (Maybe a)
+Maybe.some <a> (value: a) : (Maybe a)
+
+Char : Type
+Char = U60
+
+String : Type
+String.nil : String 
+String.cons (head: Char) (tail: String) : String 
+
+String.concat (xs: String) (ys: String) : String
+String.concat String.nil ys = ys 
+String.concat xs String.nil = xs 
+String.concat (String.cons head tail) ys = String.cons head (String.concat tail ys)
+
+Pair <a: Type> <b: Type> : Type
+Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
+
+// // ListMap Exercises
+ListMap <a: Type> : Type 
+ListMap.empty <a> : (ListMap a)
+ListMap.cons <a> (head: (Pair U60 a)) (tail: (ListMap a)) : (ListMap a)
+
+// // Inserts a value
+// If the key is already present, its value is updated
+// If the key is not present, the value is added to the map
+ListMap.set <a: Type> (key: U60) (value: a) (lm: (ListMap a)) : (ListMap a)
+ListMap.set a key value (ListMap.empty lm) = ListMap.cons (Pair.new key value) ListMap.empty
+ListMap.set a key value (ListMap.cons lm (Pair.new p.a p.b fst snd) tail) = 
+  Bool.match (U60.to_bool(== fst key)) (x => _) (ListMap.cons (Pair.new key value) tail) (ListMap.cons (Pair.new fst snd) (ListMap.set key value tail))
+
+// // Returns a Value from a Key
+// If the key is not present, returns None
+ListMap.get <a: Type> (key: U60) (lm: (ListMap a)) : (Maybe a)
+ListMap.get a key (ListMap.empty lm) = Maybe.none 
+ListMap.get a key (ListMap.cons lm (Pair.new p.a p.b fst snd) tail) = 
+  if (U60.to_bool(== fst key)) {Maybe.some snd} else {ListMap.get key tail}
+  //  Bool.match (U60.to_bool(== fst key)) (x => _) (Maybe.some snd) (ListMap.get key tail)
+
+// // Applies a function to a Value from a Key
+// Returns the same ListMap if the key is not present 
+ListMap.mut <a: Type> (key: U60) (func: a -> a) (lm: (ListMap a)) : (ListMap a) 
+ListMap.mut a key func (ListMap.empty lm) = ListMap.empty
+ListMap.mut a key func (ListMap.cons lm (Pair.new p.a p.b fst snd) tail) =
+  if (U60.to_bool(== fst key)) {ListMap.cons (Pair.new fst (func snd)) (ListMap.mut key func tail)} else {ListMap.cons (Pair.new fst snd) (ListMap.mut key func tail)}
+
+// // Converts the ListMap to a String
+// ListMap.show <a: Type> (func: a -> String) (lm: (ListMap a)) : String
+// // //     empty: "[]"
+// // //     cons: "[" | Pair.show<Nat, A>(Nat.show, fn, (lm.head)) | show<A>(fn, lm.tail) 
+// // //   }
+ListMap.show <a: Type> (func: a -> String) (lm: (ListMap a)) : String
+ListMap.show a func (ListMap.empty lm) = " []"
+ListMap.show a func (ListMap.cons lm (Pair.new p.a p.b fst snd) tail) = 
+  String.concat "{" (String.concat (U60.show fst) 
+                    (String.concat "," 
+                    (String.concat (func snd) 
+                    (String.concat "}" (ListMap.show func tail)))))
+// //   case lm {
+//   case lm {
+//     empty: "[]"
+//     cons: "{" | Nat.show(lm.head@fst) | "," | fn(lm.head@snd) | "}" | show<A>(fn, lm.tail)
+//   }
+
+// // Checks if the ListMap has a key
+// // Returns true if the key is present, false otherwise
+ListMap.has <a:Type> (key: U60) (lm: ListMap a) : Bool
+ListMap.has a key (ListMap.empty lm) = Bool.false
+ListMap.has a key (ListMap.cons lm (Pair.new p.a p.b fst snd) tail) = 
+  if (U60.to_bool(== fst key)) {Bool.true} else {ListMap.has key tail}
+
+// // Removes all Elements that doesn't satisfy a condition
+ListMap.filter <a: Type> (func: a -> Bool) (lm: (ListMap a)) : (ListMap a)
+ListMap.filter a func (ListMap.empty lm) = ListMap.empty
+ListMap.filter a func (ListMap.cons lm (Pair.new p.a p.b fst snd) tail) = 
+  if (func snd) {ListMap.cons (Pair.new p.a p.b fst snd) (ListMap.filter func tail)} else {ListMap.filter func tail}
+
+// // Applies a function to all Values
+ListMap.map <a: Type> <b: Type> (func: a -> b) (lm: (ListMap a)): (ListMap b)
+ListMap.map a b func (ListMap.empty lm) = ListMap.empty
+ListMap.map a b func ((ListMap.cons lm (Pair.new p.a p.b fst snd) tail)) = ListMap.cons (Pair.new fst (func snd)) (ListMap.map func tail)
+
+
+TestMapSucc : (ListMap U60)
+TestMapSucc = (ListMap.cons (Pair.new 0 6) 
+              (ListMap.cons (Pair.new 1 7) 
+              (ListMap.cons (Pair.new 2 8) 
+              (ListMap.cons (Pair.new 3 9) 
+              (ListMap.cons (Pair.new 4 10) 
+              (ListMap.cons (Pair.new 5 11) 
+              (ListMap.empty))))))) 
+
+Main {
+  let c = ListMap.show (r => U60.show r) TestMapSucc
+  let d = 125556
+  c
+}
