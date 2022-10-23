@@ -19,7 +19,7 @@ Bool.if r Bool.false if_t if_f = if_f
 // Basic Exercises involving Nats
 Nat : Type
 Nat.zero : Nat
-Nat.succ(pred: Nat) : Nat
+Nat.succ (pred: Nat) : Nat
 
 // Increment
 // 2 + 1 = 3

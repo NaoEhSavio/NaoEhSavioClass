@@ -201,5 +201,5 @@ Main {
   let c = Bits.o(Bits.i(Bits.i(Bits.e)))
   let d = Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
   let e = Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
-  (Bits.reverse d) 
+  (Bits.inc d) 
 }

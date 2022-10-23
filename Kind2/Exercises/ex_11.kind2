@@ -39,7 +39,8 @@ U60.show.go 6 = String.cons '6' String.nil
 U60.show.go 7 = String.cons '7' String.nil
 U60.show.go 8 = String.cons '8' String.nil  
 U60.show.go 9 = String.cons '9' String.nil  
-U60.show.go n = (x: String) => 
+// U60.show.go n = (x: String) => 
+U60.show.go n = 
   if (U60.to_bool(< n 10)) {(U60.show.go n)} 
     else {String.cons (+ 48 (% n 10)) (U60.show.go (/ n 10)) }
   // let str = String.concat (+ 48 (% n 10)) x
@@ -103,12 +104,12 @@ ListMap.mut a key func (ListMap.cons lm (Pair.new p.a p.b fst snd) tail) =
 // // //     cons: "[" | Pair.show<Nat, A>(Nat.show, fn, (lm.head)) | show<A>(fn, lm.tail) 
 // // //   }
 ListMap.show <a: Type> (func: a -> String) (lm: (ListMap a)) : String
-ListMap.show a func (ListMap.empty lm) = " []"
+ListMap.show a func (ListMap.empty lm) = "[]"
 ListMap.show a func (ListMap.cons lm (Pair.new p.a p.b fst snd) tail) = 
-  String.concat "{" (String.concat (U60.show fst) 
+  String.concat "[" (String.concat (U60.show fst) 
                     (String.concat "," 
                     (String.concat (func snd) 
-                    (String.concat "}" (ListMap.show func tail)))))
+                    (String.concat "]" (ListMap.show func tail)))))
 // //   case lm {
 //   case lm {
 //     empty: "[]"
