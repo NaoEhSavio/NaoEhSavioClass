@@ -1,0 +1,43 @@
+// ::::::::::::::
+// :: Theorems ::
+// ::::::::::::::
+//Lists
+//Most of these aren't in base yet, please send us a PR if you solve one of them.
+List.length.concat <a> (l0: List a) (l1: List a) : Equal Nat (List.length (List.concat l0 l1)) (Nat.add (List.length l0) (List.length l1))
+List.length.concat l0 l1 = ?
+
+List.length.concat.comm <a> (l0: List a) (l1: List a) : Equal Nat (List.length (List.concat l0 l1)) (List.length (List.concat l1 l0))
+List.length.concat.comm l0 l1 = ?
+
+List.concat.assoc <a> (l0: List a) (l1: List a) (l2: List a) : Equal (List a) (List.concat (List.concat l0 l1) l2) (List.concat l0 (List.concat l1 l2))
+List.concat.assoc l0 l1 l2 = ?
+
+// // non-tail recursive definitions are easier to reason about.
+// // try this definition first instead of the one in base.
+List.reverse <a> (l: List a) : List a
+List.reverse List.nil = List.nil 
+List.reverse (List.cons a head tail) = List.concat (List.reverse tail) [head]
+
+List.length.reverse <a> (l0: List a) : Equal Nat (List.length l0) (List.length (List.reverse l0))
+List.length.reverse l0 = ?
+
+List.reverse.involutive <a> (l0: List a ) : Equal (List a) (List.reverse (List.reverse l0)) l0
+List.reverse.involutive l0 = ?
+ 
+List.reverse.concat <a> (l0: List a) (l1: List a ) :  Equal (List a) (List.concat (List.reverse l0) (List.reverse l1)) (List.reverse (List.concat l0 l1)) 
+List.reverse.concat l0 l1 = ?
+
+List.length.map <a> <b> (l0: List a) (f: a -> b) : Equal Nat (List.length (List.map l0 f)) (List.length l0)
+List.length.map f l0 = ?
+
+List.map.concat <a> <b> (l0: List a) (l1: List a) (f: a -> b) : Equal (List b) (List.concat (List.map l0 f) (List.map l1 f)) (List.map (List.concat l0 l1) f)
+List.map.concat l0 l1 f = ?
+
+List.map.comp <a> <b> <c> (l0: List a) (f: a -> b) (g: b -> c) : Equal (List c) (List.map (List.map l0 f) g) (List.map l0 (x => g (f x)))
+List.map.comp l0 f g = ?
+
+List.concat.take_drop <a> (n: Nat) (l0: List a) : Equal (List a) (List.concat (List.take l0 n) (List.drop l0 n)) l0
+List.concat.take_drop n l0 = ?
+
+List.length.filter <a> (l0: List a) (f: a -> Bool) : Equal Bool (Nat.lte (List.length (List.filter l0 f)) (List.length l0)) Bool.true
+List.length.filter l0 f = ?

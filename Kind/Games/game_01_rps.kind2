@@ -1,0 +1,52 @@
+
+// Play options
+Object : Type
+Rock     : Object
+Paper    : Object
+Scissors : Object
+
+// // Converts a text to an Object. If not possible, returns rock
+Object.read (code: String): Object
+Object.read code = ?
+
+
+// // Converts a number to an Object. If not possible, returns rock
+Object.from_nat (n: U60)  : Object
+Object.from_nat n = ?
+
+
+// // Checks if Object a beats Object b
+// // Draw = false
+Object.wins (a: Object) (b: Object) : U60
+Object.wins a b = ?
+
+// // If wins return "You won", else "You lost"
+Object.match_result (win: U60) : String
+Object.match_result win = ?
+
+Main : IO Unit {
+  do IO {
+    ask answer = (IO.prompt "Pick one: rock, paper or scissors : " )
+    // Asks for user input and saves it in variable line
+    let user_input = (String.flatten [answer])
+    // Converts the user_input (String) to the Object type
+    
+    let user_object = Object.read user_input
+        // // Returns a random number below 3
+    // // 0, 1 or 2
+    let random_num = ?
+
+    // // Converts random_num (Nat) to the Object type
+    let cpu_object = Object.from_nat (random_num)
+
+    // // Compares user_object and cpu_object and returns true if user wins
+    let user_won = Object.wins user_object  cpu_object
+
+    // // Final message to be said: "You won" or "You lost"
+    let final_message = Object.match_result user_won
+    
+    ask (IO.output (final_message))
+
+    return Unit.new
+  }
+}

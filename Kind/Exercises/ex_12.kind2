@@ -1,42 +1,31 @@
-type BitsMap<A: Type> { 
-  new
-  tie(val: Maybe<A>, lft: BitsMap<A>, rgt: BitsMap<A>)
-}
+// BitsMap Exercises
+BitsMap <a> : Type 
+BitsMap.new <a> : (BitsMap a)
+BitsMap.tie <a> (value: (Maybe a)) (lft: (BitsMap a)) (rgt: (BitsMap a)) : (BitsMap a)
 
 // Given a Key and a Value, sets the given value to that key in the tree
 // Creates new keys if they don't already exist in the map
 // If there already is a value for the given key, updates it.
-
-set<A: Type>(key: Bits, val: A, map: BitsMap<A>): BitsMap<A>
-  ?set
-
-
+BitsMap.set <a> (key: Bits) (value: a) (bm: BitsMap a) : (BitsMap a)
+BitsMap.set key value bm = ?
 
 // Given a key, gets the value that correspond to the given key, 
 // If there it is no value for the key, returns Maybe.none<A>
-
-get<A: Type>(key: Bits, map:BitsMap<A>): Maybe<A>
-  ?get
-
+BitsMap.get <a> (key: Bits) (bm: BitsMap a) : (Maybe a)
+BitsMap.get a key bm = ?
 
 //Applies a function to a Value of the specific key and returns the same map but
 //with the specific value applied to the function
 //If the value isn't found, this function doesn't change the map
-
-mut<A: Type>(key: Bits, fn: A -> A, map: BitsMap<A>): BitsMap<A>
-  ?mut
-
+BitsMap.mut <a> (key: Bits) (f: a -> a) (bm: BitsMap a) : (BitsMap a)
+BitsMap.mut key f bm = ?
 
 //Deletes a Value of the map within the given key
 //Returns the same map if no value is found for that key
-
 //Receives:
   // key of the type Bits
   // map of the type BitsMap<A>
   // returns the modified BitsMap<A>
-
-//del<A: Type>(...)
-
 
 //Returns whether or not the map has a value for a given key
 //When there is a value, returns true
@@ -46,57 +35,26 @@ mut<A: Type>(key: Bits, fn: A -> A, map: BitsMap<A>): BitsMap<A>
   // map of the type BitsMap<A>
   // returns a Bool
 
-//has...
-
-
+BitsMap.show <a> (show: a -> String)  (bitsmap: BitsMap a) : String
+BitsMap.show show bm = ?
 
 //Verifies all values of the map and if they don't match the condition gets
 //removed, if the condition is matched, the value and the key are kept
-
-
-filter<A: Type>(cond: A -> Bool, map: BitsMap<A>): BitsMap<A>
-  ?filter
-
-
+BitsMap.filter <a> (cond: a -> Bool) (bm: BitsMap a) : (BitsMap a)
+BitsMap.filter cond bm = ? 
 
 //Applies a function to  all values of the map and returns the map modified 
-
-map<A: Type, B: Type>(fn: A -> B, bitsmap: BitsMap<A>): BitsMap<B>
-  ?map
-
-
+BitsMap.map <a> <b> (f: a -> b) (bm: BitsMap a) : (BitsMap b)
+BitsMap.map f bm = ?
 
 // Returns a list of keys with all Keys of the map
-
-key<A: Type>(map: BitsMap<A>): List<Bits>
-  ?key
-
-
+BitsMap.key <a> (bm: BitsMap a) : (List Bits) 
+BitsMap.key bm = ?
 
 // Unites two different maps into one, keeping its structure
 // When both maps have values for the same key, keeps the one from a
+BitsMap.union <a> (bma: BitsMap a) (bmb: BitsMap a) : (BitsMap a) 
+BitsMap.union bma bmb = ?
 
-union<A: Type>(a: BitsMap<A>, b: BitsMap<A>): BitsMap<A>
-  ?union
-
-
-//Stress Test for BitsMap
-
-stress_test(sets: Nat, gets: Nat): IO<Unit>
-  Tests.stress.bmap(sets, gets)
-
-ex_12:_
-  stress_test(1000000, 1000000)
-
-// ex_12: IO<Unit>
-//   IO {
-//     Tests._12.set(set)
-//     Tests._12.get(get)
-//     Tests._12.mut(mut)
-//     Tests._12.del(del)
-//     Tests._12.has(has)
-//     Tests._12.filter(filter)
-//     Tests._12.map(map)
-//     Tests._12.key(key)
-//     Tests._12.union(union)
-//   } 
+// Main {
+// }

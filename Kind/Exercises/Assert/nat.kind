@@ -1,5 +1,0 @@
-Assert.nat.funcs: Assert.func<Nat> 
-  { Nat.eql, Nat.show }
-
-Assert.nat(name: String, result: Nat, expected: Nat): IO<Unit>
-  Assert<Nat>(Assert.nat.funcs, expected, result, name) 

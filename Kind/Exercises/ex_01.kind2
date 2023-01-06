@@ -1,47 +1,39 @@
 // type MaybeBool
 // It maybe holds a Boolean inside it
+MaybeBool : Type
+MaybeBool.none : MaybeBool
+MaybeBool.some (value: Bool) : MaybeBool
 
-type MaybeBool { 
-  none 
-  some(value: Bool)
- }
- // Returns true if Maybe is none
-is_none(a: MaybeBool): Bool
-  ?a
-    
+// Returns true if Maybe is none
+Is_none(a: MaybeBool): Bool
+Is_none = ?
+
 // Returns true if Maybe is some
-is_some(a: MaybeBool): Bool
-  ?is
+Is_some(a: MaybeBool): Bool
+Is_some a = ?
+
 // Returns true if both inputs are identical
 // eql(MaybeBool.none,             MaybeBool.none            ) -> true
 // eql(MaybeBool.some(Bool.false), MaybeBool.none            ) -> false
 // eql(MaybeBool.some(Bool.true),  MaybeBool.some(Bool.false)) -> false
 // eql(MaybeBool.some(Bool.false), MaybeBool.some(Bool.false)) -> true
-
-eql(a: MaybeBool, b: MaybeBool): Bool
-  ?q
+MaybeBool.eql (a: MaybeBool) (b:MaybeBool) : Bool
+MaybeBool.eql a b = ?
 
 // Returns the value inside the MaybeBool.
 // If there is no value contained, returns v instead
-extract(a: MaybeBool, v: Bool): Bool
-  ?e
-
+MaybeBool.extract (a: MaybeBool) (v: Bool) : Bool
+MaybeBool.extract  a v = ?
+ 
 // Create a MaybeBool from a Boolean
 // create(Bool.false) -> MaybeBool(Bool.false)
-create(a:Bool): MaybeBool
-  ?c
+MaybeBool.create (a: Bool) : MaybeBool
+MaybeBool.create a         = ?
 
 // Returns the first input that is a MaybeBool.some
 // Returns MaybeBool.none if both are MaybeBool.none
-or(a: MaybeBool, b: MaybeBool) : MaybeBool 
-  ?or
+MaybeBool.or (a: MaybeBool) (b: MaybeBool): MaybeBool
+MaybeBool.or  a b = ?
 
-ex_01: IO<Unit>
-  IO {
-    Tests._01.is_none(is_none)
-    Tests._01.is_some(is_some)
-    Tests._01.eql(eql)
-    Tests._01.extract(extract)
-    Tests._01.create(create)
-    Tests._01.or(or)
-  }
+// Main {
+// }

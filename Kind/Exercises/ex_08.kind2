@@ -1,0 +1,54 @@
+// Basic exercises involving Lists
+List <a> : Type
+List.nil <a> : (List a)
+List.cons <a> (head: a) (tail: List a) : (List a)
+
+Maybe <a> : Type
+Maybe.none <a> : (Maybe a)
+Maybe.some <a> (value: a) : (Maybe a)
+
+// // Returns the head of the List
+List.head <a> (xs: (List a)): (Maybe a)
+List.head xs = ?
+
+// // Returns the list without the first element
+List.tail <a> (xs: (List a)): (List a)
+List.tail xs = ?
+
+// // Returns the length of a list
+List.length <a> (xs: (List a)) : Nat
+List.length xs = ?
+
+// // Returns the last element of a list
+List.last <a> (xs: (List a)) : (Maybe a)
+List.last xs = ?
+
+// // Returns the list without the last element
+List.init <a> (xs: (List a)): (List a)
+List.init xs = ?
+
+// // Concatenates two lists
+List.concat <a> (xs: (List a)) (ys: (List a)): (List a)
+List.concat xs ys = ?
+
+// // Removes n elements from the start of the list
+// // List.drop<Nat>(3, [1,2,3,4,5]) -> [4, 5]
+List.drop <a> (xs: (List a)) (n: Nat) : (List a)
+List.drop xs n= ?
+
+// // Creates a new list with the N first elements of the previous list
+// // List.take<Nat>(3, [1,2,3,4,5]) -> [1,2,3]
+List.take <a> (xs: (List a)) (n: Nat) : (List a)
+List.take xs n = ?
+
+// // Applies a function to all elements of a list
+List.map <a> <b> (xs: (List a)) (f: a -> b) : (List b)
+List.map xs f = ?
+
+// // Returns the same list, with the order reversed
+List.reverse <a> (xs: List a) : (List a)
+List.reverse xs = ?
+
+// Main {
+//   let a = [1n,2n,3n]
+// }

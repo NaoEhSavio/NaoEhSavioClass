@@ -1,0 +1,39 @@
+// Returns pairs of the elements of the 2 input lists on the same index
+// Ex: List.zip [1,2] ["a","b","c"] == [{1, "a"}, {2 , "b"}]
+// Ex: List.zip ["a", "b"] [3, 5]   == [{"a", 3}, {2 , "b"}]
+List.zip <a> <b> (xs: List a) (ys: List b) : (List (Pair a b))
+List.zip xs ys = ? 
+
+// Returns the smallest element of a List
+List.smallest (xs: (List Nat)) : (Maybe Nat)
+List.smallest xs = ?
+
+// Returns the value inside the Maybe.
+// If there is no value contained, returns v instead
+Maybe.extract <a> (m: Maybe a) (v: a) : a
+Maybe.extract m v = ?
+
+// Returns the same list without the smallest element
+List.delete_smallest (xs: (List Nat)) : (List Nat)
+List.delete_smallest xs = ?
+
+
+// Returns the same list, in ascending order
+List.sort_ascending (xs: (List Nat)): (List Nat)
+List.sort_ascending xs = ?
+
+// Returns an element at an index from the list
+// if there is an element at that index
+//   returns Maybe.some!(element)
+// else
+//   returns Maybe.none!
+List.get <a> (idx: Nat) (xs: (List a)): (Maybe a)
+List.get idx xs = ?
+
+// Removes all elements that does not match a condition
+// List.filter [1n, 2n, 3n, 4n, 5n] (x => Nat.odd x) = [1n, 3n, 5n]
+List.filter <a> (xs: (List a)) (f: a -> Bool) : (List a)
+List.filter f xs = ?
+
+// Main {
+// }

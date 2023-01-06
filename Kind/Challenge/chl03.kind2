@@ -1,0 +1,5 @@
+// Find_and_replace
+Main {
+ (Find_and_replace "word test", "test word", "In this test, the word test should be replaced by the word example.")
+									  	             //result  "In this test, the test word should be replaced by the word example."
+}	

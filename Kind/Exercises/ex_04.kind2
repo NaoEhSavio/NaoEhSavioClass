@@ -1,0 +1,81 @@
+// Nat
+// Advanced exercises involving recursion
+Nat : Type
+Nat.zero : Nat
+Nat.succ (pred: Nat) : Nat
+
+// Doubles a number
+Nat.double (n: Nat) : Nat
+Nat.double n = ? 
+
+// Addition
+Nat.add (a: Nat) (b: Nat) : Nat
+Nat.add a b = ?
+
+// Subtraction
+// 4 - 5 = 0
+// 5 - 4 = 1
+Nat.sub (a: Nat) (b: Nat) : Nat
+Nat.sub a b = ?
+
+// Multiplication
+Nat.mul (a: Nat) (b: Nat) : Nat
+Nat.mul a b = ?
+
+// Factorial
+// 4! = 24
+Nat.fac (a: Nat) : Nat
+Nat.fac a = ?
+
+// Equal
+// Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+Nat.eql (a: Nat) (b: Nat): Bool
+Nat.eql a b = ?
+
+
+// // Do not use the "not" function to create the functions below
+
+// Greater than
+// 2 > 1 = True
+// 3 > 3 = False
+// if A > B == True else false
+Nat.gtn (a: Nat) (b: Nat): Bool
+Nat.gtn a b = ?
+
+// Lower than
+// 1 < 2 = True
+// 3 < 3 = False
+// if A > B == False else true 
+Nat.ltn (a: Nat) (b: Nat): Bool
+Nat.ltn a b = ?
+
+// Minimum
+// min(2, 3) = 2
+// min(4, 1) = 1
+// if A < B then A else B
+Nat.min (a: Nat) (b: Nat): Nat
+Nat.min a b = ?
+
+// Maximum
+// max(2, 3) = 3
+// max(4, 1) = 4
+// if A > B then A else B
+Nat.max (a: Nat) (b: Nat): Nat
+Nat.max a b = ?
+
+// Divides a number by two
+// 2 / 2 = 1
+// 5 / 2 = 2
+// 1 / 2 = 0
+Nat.hlf (a: Nat) : Nat
+Nat.hlf a = ?
+
+// Division
+// 1 / 2 = 0
+// x / 0 = 0
+// 5 / 2 = 2		              
+Nat.div (a: Nat) (b: Nat) : Nat
+Nat.div a b = ?
+
+// Main {
+// }

@@ -1,0 +1,97 @@
+// ::::::::::::::
+// :: Theorems ::
+// ::::::::::::::
+// Note: these problems use functions from the base libs, NOT the ones above
+////Natural numbers
+Nat.same.self (n: Nat) : Equal Nat (Nat.same n) n
+Nat.same.self n = ?
+
+Nat.half.double (n: Nat) : Equal Nat (Nat.half(Nat.double n)) n
+Nat.half.double n = ?
+
+Nat.sub.succ_both (n: Nat) (m: Nat) : Equal Nat (Nat.sub (Nat.succ n) (Nat.succ m)) (Nat.sub n m)
+Nat.sub.succ_both n m = ?
+
+Nat.sub.zero_left (n: Nat) : Equal Nat (Nat.sub Nat.zero n) Nat.zero
+Nat.sub.zero_left n = ?
+
+Nat.mod.mod_one_equals_zero (n: Nat) : Equal Nat (Nat.mod n 1n) Nat.zero
+Nat.mod.mod_one_equals_zero n = ?
+
+Nat.mod.zero_mod_equals_zero (n: Nat): Equal Nat (Nat.mod Nat.zero (Nat.succ n)) Nat.zero
+Nat.mod.zero_mod_equals_zero n = ?
+
+Nat.mod.go_self (n: Nat) (m: Nat) : Equal Nat (Nat.mod.go n n (Nat.succ m)) Nat.zero
+Nat.mod.go_self n m = ?
+
+Nat.mod.go_mod_one_equals_zero (n: Nat) : Equal Nat (Nat.mod.go n 1n Nat.zero) Nat.zero
+Nat.mod.go_mod_one_equals_zero n = ?
+
+Nat.mod.self (n: Nat) : Equal Nat (Nat.mod (Nat.succ n) (Nat.succ n)) Nat.zero
+Nat.mod.self n = ?
+
+Nat.succ_inj (n: Nat) (m: Nat) (e: Equal Nat (Nat.succ n) (Nat.succ m)) : Equal Nat n m
+Nat.succ_inj n m e = ?
+
+Nat.gcd.self (n: Nat) : Equal Nat (Nat.gcd n n) n
+Nat.gcd.self n = ?
+
+Nat.gcd.succ (n: Nat) (m: Nat) : Equal Nat (Nat.gcd (Nat.succ n) m) (Nat.gcd (Nat.mod m (Nat.succ n)) (Nat.succ n))
+Nat.gcd.succ n m = ?
+
+Nat.gcd.zero_right (n: Nat) : Equal Nat (Nat.gcd n Nat.zero) n
+Nat.gcd.zero_right n = ?
+
+Nat.gcd.zero_left (n: Nat) : Equal Nat (Nat.gcd Nat.zero n) n
+Nat.gcd.zero_left n = ?
+
+Nat.lte.zero_right (n: Nat) (e: Equal Bool (Nat.lte n Nat.zero) Bool.true) : Equal Nat n Nat.zero
+Nat.lte.zero_right n e = ?
+
+Nat.add.succ_right (n: Nat) (m: Nat) : Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ (Nat.add n m))
+Nat.add.succ_right n m = ?
+
+Nat.add.cancel_left (n: Nat) (m: Nat) (o: Nat) (e: Equal Nat (Nat.add n m) (Nat.add n o)) : Equal Nat m o
+Nat.add.cancel_left n m o e = ?
+
+Nat.add.comm (n: Nat) (m: Nat) : Equal Nat (Nat.add n m) (Nat.add m n)
+Nat.add.comm n m = ?
+
+Nat.add.zero_right (n: Nat) : Equal Nat (Nat.add n Nat.zero) n
+Nat.add.zero_right n = ?
+
+Nat.add.cancel_right (n: Nat) (m: Nat) (o: Nat) (e: Equal Nat (Nat.add n m) (Nat.add o m)) : Equal Nat n o
+Nat.add.cancel_right n m o e = ?
+
+Nat.add.zero_left (n: Nat) : Equal Nat (Nat.add Nat.zero n) n
+Nat.add.zero_left n = ?
+
+Nat.add.assoc (n: Nat) (m: Nat) (o: Nat) : Equal Nat (Nat.add (Nat.add n m) o)  (Nat.add n (Nat.add m o))
+Nat.add.assoc n m o = ?
+
+Nat.mul.one_right (n: Nat) : Equal Nat (Nat.mul n (Nat.succ Nat.zero)) n
+Nat.mul.one_right n = ?
+
+Nat.mul.distrib_left (n: Nat) (m: Nat) (o: Nat) : Equal Nat (Nat.mul n (Nat.add m o)) (Nat.add (Nat.mul n m) (Nat.mul n o))
+Nat.mul.distrib_left n m o = ?
+
+Nat.mul.one_left (n: Nat) : Equal Nat (Nat.mul (Nat.succ Nat.zero) n)  n
+Nat.mul.one_left n = ?
+
+Nat.mul.succ_right (n: Nat) (m: Nat) : Equal Nat (Nat.mul n (Nat.succ m)) (Nat.add n (Nat.mul n m))
+Nat.mul.succ_right n m = ?
+
+Nat.mul.comm (n: Nat) (m: Nat) : Equal Nat (Nat.mul n m) (Nat.mul m n)
+Nat.mul.comm n m = ?
+
+Nat.mul.succ_left (n: Nat) (m: Nat) : Equal Nat (Nat.mul (Nat.succ n) m)  (Nat.add m (Nat.mul n m))
+Nat.mul.succ_left n m = ?
+
+Nat.mul.zero_right (n: Nat) : Equal Nat (Nat.mul n Nat.zero) Nat.zero
+Nat.mul.zero_right n = ?
+
+Nat.mul.zero_left (n: Nat) : Equal Nat (Nat.mul Nat.zero n) Nat.zero
+Nat.mul.zero_left n = ?
+
+Nat.mul.assoc (n: Nat) (m: Nat) (o: Nat) : Equal Nat  (Nat.mul n (Nat.mul m o)) (Nat.mul (Nat.mul n m) o)
+Nat.mul.assoc n m o = ?

@@ -1,6 +1,6 @@
 # Exercises to Kindelia classes
 
-Exercises for learning [Kind](https://github.com/Kindelia/Kind#readme) language and [HVM](https://github.com/Kindelia/HVM#readme). 
+Exercises for learning [Kind](https://github.com/Kindelia/Kind2#readme) language and [HVM](https://github.com/Kindelia/HVM#readme). 
 
 ###  Folder Structure
 * **Kind**
@@ -11,7 +11,7 @@ Exercises for learning [Kind](https://github.com/Kindelia/Kind#readme) language 
 * **Solutions**: Where you put yout answers
 
 To solve the exercises you will need to read the
-[Kind Documentation](https://app.gitbook.com/o/f5pmVKXE0zdcMOu6WXHf/s/MAbwOd8IAba3qXSYTi00/).
+<!-- [Kind Documentation](https://app.gitbook.com/o/f5pmVKXE0zdcMOu6WXHf/s/MAbwOd8IAba3qXSYTi00/). -->
 
 Watch the video classes on [youtube](https://youtube.com/playlist?list=PLfzmqZsMFpsojpQHxfc27FAmzKf5GUsxF)
 and revise the [slides](https://github.com/Kindelia/slides).
@@ -19,7 +19,7 @@ and revise the [slides](https://github.com/Kindelia/slides).
 ## How To
 ### Install Dependencies
 * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-* [Kind](https://github.com/Kindelia/Kind#usage)
+* [Kind](https://github.com/Kindelia/Kind2#usage)
 * [HVM](https://github.com/Kindelia/HVM#usage) \**maybe*
 
 ### Setup

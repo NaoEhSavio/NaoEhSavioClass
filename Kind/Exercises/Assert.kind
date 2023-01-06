@@ -1,6 +1,0 @@
-Assert.func<A: Type>: Type
-  Pair<A -> A -> Bool, A -> String>
-
-Assert<A: Type>(funcs: Assert.func<A>, expected: A, result: A, message: String): IO<Unit>
-  let { eqlFn, show } = funcs
-  if eqlFn(expected, result) then IO.pass else IO.print("Checking " | message | " = " | show(expected) | "\nreceived " | show(result) | "\n")

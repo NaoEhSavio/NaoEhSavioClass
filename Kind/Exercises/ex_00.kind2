@@ -1,0 +1,69 @@
+
+// Basic Exercises involving Bools
+Bool : Type
+Bool.true : Bool
+Bool.false : Bool
+
+// Is true
+// Returns true if input is true
+Bool.is_true (a: Bool) : Bool
+Bool.is_true a = ?
+
+// Is false
+// Returns true if input is false
+Bool.is_false (a: Bool) : Bool
+Bool.is_false a = ?
+
+// Negation
+// Returns the opposite of a Bool
+Bool.not (a: Bool) : Bool
+Bool.not a = (Bool.is_false a)
+
+// And
+// Returns true if both inputs are true
+Bool.and (a: Bool) (b: Bool) : Bool
+Bool.and a b  = ?
+
+// Or
+// Returs true if any input is true
+Bool.or (a: Bool) (b: Bool) : Bool
+Bool.or a b = ?
+
+// Equal
+// Returs true if both inputs are identical
+Bool.Equal (a: Bool) (b: Bool) : Bool
+Bool.Equal a b = ?
+
+// Xor
+// Returns true if both inputs are different
+Bool.xor (a: Bool) (b: Bool) : Bool
+Bool.xor a b = ?
+
+// Nor
+// Returns true if both inputs are false
+Bool.nor (a: Bool) (b: Bool) : Bool
+Bool.nor a b = ?
+
+// Nand
+// Returns false only if both inputs are true
+Bool.nand (a: Bool) (b: Bool) : Bool
+Bool.nand a b = ?
+
+// Xnor
+// Returns true if both inputs are identical
+Bool.xnor (a: Bool) (b: Bool) : Bool
+Bool.xnor a b = ?
+
+// If
+// Returns if a specified condition is true or if the same condition is false
+Bool.if <r: Type> (b: Bool) (t: r) (f: r) : r
+Bool.if r b t f = ?
+
+
+
+
+// Main {
+	
+// 	proof
+// }
+

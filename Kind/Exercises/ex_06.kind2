@@ -1,0 +1,105 @@
+// Integers
+Int : Type
+Int.neg (num: Neg) : Int 
+Int.pos (num: Pos) : Int 
+
+// Positive Numbers
+Pos : Type 
+Pos.zero : Pos
+Pos.succ (pred: Pos) : Pos 
+
+// Negative Numbers
+Neg : Type
+Neg.one : Neg
+Neg.pred (succ: Neg) : Neg
+
+// // Exercises:
+// Increments an Integer
+// int(false, 1)     = +0
+// int(false, 2)     = -1
+// int(true,  2)     = +3
+Int.inc (a: Int): Int  
+Int.inc a = ?
+
+// Decrements an Integer
+// int(false, 1) = -2
+// int(true,  2) = +1
+// int(true,  0) = -1
+Int.dec (a: Int): Int
+Int.dec a = ?
+// Doubles an Integer
+// int(false, 4) = -8
+// int(false, 1) = -2
+// int(true,  2) = +4
+Int.dbl (a: Int): Int 
+Int.dbl a =? 
+
+// Adds two Integers
+// int(false, 4) + int(false, 2) = -6
+// int(false, 4) + int(true,  2) = -2
+Int.add (a: Int) (b: Int) : Int
+Int.add a b = ?
+
+// Subtracts two Integers
+// int(false, 6) - int(false, 6) = +0
+// int(false, 4) - int(false, 6) = +2
+Int.sub (a: Int) (b: Int) : Int
+Int.sub a b = ?
+
+// Multiplies two Integers
+// int(false, 2) * int(true, 3)  = -6
+// int(false, 4) * int(false, 5) = +20
+//-1 * -10 = 10
+Int.mul (a: Int) (b: Int) : Int
+Int.mul a b = ?
+
+// Equal
+// Given two Integers, returns true if both are the same and false otherwise.
+Int.eql (a: Int) (b: Int) : Bool 
+Int.eql a b = ?
+
+// // Greater than
+// // int(false, 2) > int(false, 5) = True
+// // int(false, 5) > int(false, 1) = False
+// // int(false, 2) > int(true,  0) = False
+// // int(true,  0) > int(false, 2) = True
+Int.gtn (a: Int) (b: Int) : Bool // if A > B then True else false
+Int.gtn a b = ?
+
+// // Lower than
+// // int(false, 1) < int(true,  0) = True
+// // int(true,  0) < int(false, 1) = False
+Int.ltn (a: Int) (b: Int) : Bool // if A > B then False else true
+Int.ltn a b = ?
+
+// Minimum
+// min(int(false, 1), int(true,  0)  = -1
+// min(int(false, 1), int(false, 3)) = -3
+Int.min (a: Int) (b: Int): Int // if A < B then A else B
+Int.min a b = ?
+
+// Maximum
+// max(int(false, 1), int(true,  0)) = +0
+// max(int(false, 1), int(false, 3)) = -1
+Int.max(a: Int) (b: Int): Int // if A > B then A else B
+Int.max a b = ?
+
+// Half
+// Divides an Integer by two
+// int(false, 4) = -2
+// int(false, 1) = +0
+// int(true,  6) = +3
+Int.hlf (a: Int) : Int
+Int.hlf a = ?
+
+// Division
+// int(true,  2)  / int(true,  2)  = +1
+// int(false, 8)  / int(true,  4)  = -2
+// int(false, 11) / int(false, 5)  = +2
+// int(true,  10) / int(false, 12) = +0
+Int.div (a: Int) (b: Int) : Int
+Int.div a b = ?
+
+
+// Main {
+// }

@@ -1,5 +1,0 @@
-Assert.bool.funcs: Assert.func<Bool> 
-  { Bool.eql, Bool.show }
-
-Assert.bool(name: String, result: Bool, expected: Bool): IO<Unit>
-  Assert<Bool>(Assert.bool.funcs, expected, result, name)

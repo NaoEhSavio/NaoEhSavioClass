@@ -1,5 +1,0 @@
-Assert.char.funcs: Assert.func<Char> 
-  { Char.eql, Char.to_string }
-
-Assert.char(name: String, result: Char, expected: Char): IO<Unit>
-  Assert<Char>(Assert.char.funcs, expected, result, name)

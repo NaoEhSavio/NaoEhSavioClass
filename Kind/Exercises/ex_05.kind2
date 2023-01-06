@@ -1,0 +1,27 @@
+// Basic Exercises involving Pairs
+Pair <a> <b> : Type
+Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
+
+// Example:
+// Swaps the elements of a pair
+Pair.swap <a> <b> (pair: (Pair a b)) : (Pair b a)
+Pair.swap pair = ? 
+
+// Returns the first element of a pair
+Pair.first <a> <b> (pair: (Pair a b)) : a
+Pair.first pair = ?
+
+// Returns the second element of a pair
+Pair.second <a> <b> (pair: (Pair a b)) : b
+Pair.second pair = ?
+
+// Creates a Pair from 2 element
+Pair.create <a> <b> (x: a) (y: b): (Pair a b)
+Pair.create x y = ?
+
+// Applies a function to both elements of a Pair
+Pair.map <a> <b> (f: (x: a) b) (pair: (Pair a a)) : (Pair b b)
+Pair.map f pair = ?
+
+// Main {
+// }

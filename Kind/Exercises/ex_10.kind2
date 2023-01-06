@@ -1,0 +1,192 @@
+//Char and String
+// Charactere Type
+// Alias for U60
+Char : Type
+Char = U60
+
+//Syntax Sugar for U60
+  //0#16  1#16  2#16 ...
+//Syntax Sugar for Char
+  //'0'  '1'  '2' ... 
+//Ascii Table from Wikipedia:
+// https://upload.wikimedia.org/wikipedia/commons/1/1b/ASCII-Table-wide.svg
+//  _________________________________________
+// | U60 Syntax Sugar   | Char Syntax Sugar  |  
+// |--------------------|--------------------|
+// |     72#60          |      'H'           |
+// |    101#60          |      'e'           |
+// |    121#60          |      'y'           |
+//  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+// //Verifies if the character is Upper Case
+//is_upper('a') -> Bool.false
+//is_upper('A') -> Bool.true
+//is_upper('0') -> Bool.false
+Char.is_upper (x: Char): Bool
+Char.is_upper x = ?
+
+// //Verifies if the character is Lower Case
+//is_lower('a') -> Bool.true
+//is_lower('A') -> Bool.false
+//is_lower('0') -> Bool.false
+Char.is_lower (x: Char): Bool
+Char.is_lower x = ?
+
+// //Verifies if the character is a Number-Digit Value
+//is_digit('a') -> Bool.false
+//is_digit('A') -> Bool.false
+//is_digit('0') -> Bool.true
+Char.is_digit (x: Char): Bool
+Char.is_digit x = ?
+
+// //Verifies if both of the Characters are the same
+//is_equal('a'  'A') -> Bool.false
+//is_equal('A'  '0') -> Bool.false
+//is_equal('0'  '0') -> Bool.truech
+Char.equal (x: Char) (y: Char): Bool
+Char.equal x y = ?
+
+// //Transforms Characters into Nat digits
+//to_digit('0') -> Nat.zero
+//to_digit('1') -> Nat.succ(Nat.zero)
+//to_digit('4') -> 4
+Char.to_digit (x: Char): U60
+Char.to_digit x = ?
+
+// //Transforms all Characters into Lower Case Characters
+//to_lower('A') -> 'a'
+//to_lower('B') -> 'b'
+//to_lower('Z') -> 'z'
+Char.to_lower (x: Char) : Char
+Char.to_lower x = ?
+
+// //Transforms all Characters into Upper Case Characters
+//to_upper('a') -> 'A' 
+//to_upper('b') -> 'B'
+//to_upper('z') -> 'Z'
+Char.to_upper (x: Char) : Char
+Char.to_upper x = ?
+
+Char.to_string (x: Char) : String
+Char.to_string x = ?
+
+// //String Type
+String : Type
+String.nil : String 
+String.cons (head: Char) (tail: String) : String 
+
+// //Without Syntax Sugar for String
+//a = String.cons('H'  String.cons('I'  String.nil))
+//b = String.cons('H'  String.cons('e'  String.cons('l'  String.cons('l'  String.cons('o'  String.nil)))))
+//c = String.cons('t'  String.cons('e'  String.cons('x'  String.cons('t'  String.nil))))
+
+// //Syntax Sugar for String
+//a = "HI"
+//b = "Hello"
+//c = "text"
+
+// //Concatenates two Strings into one
+//concat(a b) -> "HiHello"
+//concat(b c) -> "Hellotext"
+String.concat(xs: String) (ys: String) : String
+String.concat xs ys = ?
+
+// //Applies a Function to all Characters of the String
+//map(to_lower  a) -> "hi"
+String.map (f: Char -> Char) (xs: String) : String
+String.map f xs = ?
+
+// //Converts all Lower Case Caracters in a String to Upper Case
+//string_to_upper(c) -> "TEXT"
+String.to_upper (xs: String) : String
+String.to_upper xs = ?
+
+// //Convers the String into bits
+//to_bits(a) -> "...0000000001001001 ...0000000001001000"
+//to_bits(b) -> "...0000000001101111 ...0000000001101100 ...00000000011011000 ...000000001100101 ...0000000001001000"
+//to_bits(c) -> "...0000000001110100 ...0000000001111000 ...00000000011001010 ...000000001110100"
+
+String.to_bits (xs: String) : Bits
+String.to_bits xs = ?
+
+// //Verifies if two Strings are Equal
+//stringequal(a  a) -> Bool.true
+//stringequal(a  b) -> Bool.false
+//stringequal(b  c) -> Bool.false
+String.equal (xs: String) (ys: String) : Bool
+String.equal xs ys = ?
+
+// //Verifies if All String elements are Numbers
+//is_nat(a)      -> Bool.false
+//is_nat(b)      -> Bool.false
+//is_nat("1234") -> Bool.true
+String.is_nat (xs: String): Bool
+String.is_nat xs = ?
+
+// // Takes any elements while the condition is matched.
+//take_while(is_upper     a) -> "HI"
+//take_while(is_lower     b) -> ""
+//take_while(is_equal('t')  c) -> "t"
+String.take_while (f: Char -> Bool) (xs: String) : String
+String.take_while f xs = ?
+
+// //Finds the index of the head for the first occurence if any of the Characters are equal
+//find(a  "H") -> Maybe.some(1)
+//find(b  "l") -> Maybe.some(2)
+//find(c  "x") -> Maybe.some(2)
+//find(c  "z") -> Maybe.none
+
+String.find (xs: String) (x: Char) : (Maybe Nat)
+String.find xs x = ?
+
+// //Filters the String and discards all the Chars that doesn't satisfy given condition 
+//filter(is_upper       a) -> "HI"
+//filter(is_lower       b) -> "ello"
+//filter(is_equal('t')  c) -> "tt"
+String.filter (f: Char -> Bool) (xs: String) : String
+String.filter f xs = ?
+
+// //Concatenates all elements of a List of Strings
+//String.flatten [a b c] -> "HIHellotext"
+String.flatten (lxs: (List String)) : String
+String.flatten lxs = ?
+
+// //Drops a n Number of characteres from a String
+//String.drop 1  a -> "I"
+//String.drop 2  b -> "llo"
+//String.drop 3  c -> "t"
+String.drop (n: Nat) (xs: String) : String
+String.drop n xs = ?
+
+// //Takes n elements of a String
+//String.take 1  a ->  "H"
+//String.take 2  b ->  "He"
+//String.take 3  c ->  "tex"
+String.take (n: Nat) (xs: String) : String
+String.take n xs = ?
+
+String.length (xs: String) : Nat
+String.length xs = ?
+
+
+// //Takes a x part of the string after a n Index of values get dropped
+//String.slice 1  2  a  -> "I"
+//String.slice 2  4  b  -> "ll"
+//String.slice 1  3  c  -> "ex"
+String.slice (n: Nat) (x: Nat) (xs: String) : String
+String.slice n x xs = ?
+
+
+// // Final Boss
+// // Divides the elements of a String into a list  using a match you decide
+//String.split b  "l"                                    -> ["He","","o"]
+//String.split "Split example with matching space"  ""   -> ["Split example with matching space"]
+//String.split "You are awesome!"  " "                   -> ["You","are","awesome!"]
+String.split (xs: String) (matched: String) : (List String)
+String.split xs matched = ?
+
+// Main{
+//   let a =(String.cons'H'(String.cons'I'(String.nil)))
+//   let b =(String.cons'H'(String.cons'e'(String.cons'l'(String.cons'l'(String.cons'o'(String.nil))))))
+//   let c =(String.cons't'(String.cons'e'(String.cons'x'(String.cons't'(String.nil)))))
+// }

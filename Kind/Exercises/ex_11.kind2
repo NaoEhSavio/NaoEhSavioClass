@@ -1,0 +1,40 @@
+// ListMap Exercises
+ListMap <a> : Type 
+ListMap.empty <a> : (ListMap a)
+ListMap.cons <a> (head: (Pair U60 a)) (tail: (ListMap a)) : (ListMap a)
+
+// Inserts a value
+// If the key is already present, its value is updated
+// If the key is not present, the value is added to the map
+ListMap.set <a> (key: U60) (value: a) (lm: (ListMap a)) : (ListMap a)
+ListMap.set key value lm = ?
+
+// Returns a Value from a Key
+// If the key is not present, returns None
+ListMap.get <a> (key: U60) (lm: (ListMap a)) : (Maybe a)
+ListMap.get key lm = ?
+
+// Applies a function to a Value from a Key
+// Returns the same ListMap if the key is not present 
+ListMap.mut <a> (key: U60) (f: a -> a) (lm: (ListMap a)) : (ListMap a) 
+ListMap.mut key f lm = ?
+
+// Converts the ListMap to a String
+ListMap.show <a> (f: a -> String) (lm: (ListMap a)) : String
+ListMap.show f lm = ?
+
+// Checks if the ListMap has a key
+// Returns true if the key is present, false otherwise
+ListMap.has <a> (key: U60) (lm: ListMap a) : Bool
+ListMap.has key lm = ?
+
+// Removes all Elements that doesn't satisfy a condition
+ListMap.filter <a> (f: a -> Bool) (lm: (ListMap a)) : (ListMap a)
+ListMap.filter f lm = ?
+
+// Applies a function to all Values
+ListMap.map <a> <b> (f: a -> b) (lm: (ListMap a)): (ListMap b)
+ListMap.map f lm = ?
+
+// Main {
+// }

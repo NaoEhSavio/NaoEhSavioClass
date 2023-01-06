@@ -1,0 +1,26 @@
+
+// Basic Exercises involving Nats
+Nat : Type
+Nat.zero : Nat
+Nat.succ (pred: Nat) : Nat
+
+// Increment
+// 2 + 1 = 3
+// 0 + 1 = 1
+Nat.inc(a: Nat): Nat  
+Nat.inc a = ?
+
+// Decrement
+// 2 - 1 = 1
+// 0 - 1 = 0
+Nat.dec(a: Nat): Nat  
+Nat.dec a = ?
+
+// is_zaro
+// 0 = Bool.true
+// n = Bool.false
+Nat.is_zero (a: Nat) : Bool
+Nat.is_zero a = ?
+
+// Main {
+// }

@@ -1,5 +1,0 @@
-Assert.string.funcs: Assert.func<String> 
-  { String.eql, (c) c }
-
-Assert.string(name: String, result: String, expected: String): IO<Unit>
-  Assert<String>(Assert.string.funcs, expected, result, name)

@@ -1,55 +1,46 @@
+
 // type PairBool
 // Contains 2 Booleans inside it
-type PairBool { 
-  new(fst: Bool, snd: Bool)
-}
+PairBool: Type
+PairBool.new (fst: Bool) (snd: Bool): PairBool 
 
 // Returns the first element of a pair
-fst(pair: PairBool): Bool
-  ?f
+PairBool.fst (a: PairBool): Bool
+PairBool.fst a = ?
 
 // Returns the second element of a pair
-snd(pair: PairBool): Bool
-  ?s
+PairBool.snd (a: PairBool): Bool
+PairBool.snd a = ?
 
 // Returns true if both elements of a PairBool are identical
-eql_elements(pair: PairBool): Bool 
-  ?l
-  
+PairBool.eql_elements (a: PairBool): Bool
+PairBool.eql_elements a = ?
+
 // Returns true if both Pairs are equal 
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
 // eql(PairBool.new(true, false), PairBool.new(true, false)) -> true
-eql(a: PairBool, b: PairBool): Bool
-  ?e
+PairBool.eql (a: PairBool) (b:PairBool): Bool
+PairBool.eql a b = ?
 
 // Returns true if both Pairs are different
 // not_eql(PairBool.new(false, false), PairBool.new(true, true)) -> true 
 // not_eql(PairBool.new(true, false), PairBool.new(true, false)) -> false
-not_eql(a: PairBool, b: PairBool): Bool
-  ?f
-  
+PairBool.not_eql (a: PairBool) (b:PairBool): Bool
+PairBool.not_eql a b = ?
+
 // Creates a PairBool from 2 Booleans
-create(a: Bool, b: Bool): PairBool
-  ?e
+PairBool.create (a: Bool) (b: Bool): PairBool
+PairBool.create a b = ?
 
 // Inverts the values of a PairBool
 // neg(PairBool.new(false, false)) -> PairBool.new(true, true)
 // neg(PairBool.new(false, true)) -> PairBool.new(true, false)
-neg(pair: PairBool): PairBool
-  ?n
+PairBool.neg (a: PairBool): PairBool
+PairBool.neg a = ?
 
 // Inverts the 2 elements of a PairBool
-swap(pair: PairBool): PairBool 
-  ?s
+PairBool.swap (a: PairBool): PairBool
+PairBool.swap a = ?
 
-ex_02: IO<Unit>
-  IO {
-    Tests._02.fst(fst)
-    Tests._02.snd(snd)
-    Tests._02.eql_elements(eql_elements)
-    Tests._02.eql(eql)
-    Tests._02.not_eql(not_eql)
-    Tests._02.create(create)
-    Tests._02.neg(neg)
-    Tests._02.swap(swap)
-  }
+// Main {
+// }
