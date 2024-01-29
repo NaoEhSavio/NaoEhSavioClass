@@ -37,17 +37,27 @@ PairBool.eql_elements (PairBool.new Bool.true Bool.false) = Bool.false
 PairBool.eql_elements (PairBool.new Bool.false Bool.true) = Bool.false
 PairBool.eql_elements (PairBool.new Bool.false Bool.false) = Bool.true
 
+Bool.and (a: Bool) (b: Bool) : Bool
+Bool.and Bool.true  Bool.true  = Bool.true
+Bool.and a b  = Bool.false
+
+Bool.nor (a: Bool) (b: Bool) : Bool
+Bool.nor Bool.false Bool.false = Bool.true
+Bool.nor a b = Bool.false
+
 // Returns true if both Pairs are equal 
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
 // eql(PairBool.new(true, false), PairBool.new(true, false)) -> true
 PairBool.eql (a: PairBool) (b:PairBool): Bool
-PairBool.eql (PairBool.new a b) (PairBool.new x y) = (Bool.if (Bool.eql (Bool.eql a x) (Bool.eql b y)) Bool.true Bool.false)
+//PairBool.eql (PairBool.new a b) (PairBool.new x y) = (Bool.if (Bool.eql (Bool.eql a x) (Bool.eql b y)) Bool.true Bool.false)
+PairBool.eql (PairBool.new a b) (PairBool.new x y) =  Bool.and (Bool.eql a x) (Bool.eql b y)
 
 // Returns true if both Pairs are different
 // not_eql(PairBool.new(false, false), PairBool.new(true, true)) -> true 
 // not_eql(PairBool.new(true, false), PairBool.new(true, false)) -> false
 PairBool.not_eql (a: PairBool) (b:PairBool): Bool
-PairBool.not_eql (PairBool.new a b) (PairBool.new x y) = (Bool.if (Bool.eql (Bool.eql a x) (Bool.eql b y)) Bool.false Bool.true)
+//PairBool.not_eql (PairBool.new a b) (PairBool.new x y) = (Bool.if (Bool.eql (Bool.eql a x) (Bool.eql b y)) Bool.false Bool.true)
+PairBool.not_eql (PairBool.new a b) (PairBool.new x y) = Bool.nor (Bool.eql a x) (Bool.eql b y)
 
 // Creates a PairBool from 2 Booleans
 PairBool.create (a: Bool) (b: Bool): PairBool
